@@ -6,14 +6,16 @@ namespace diagrammatically.Domein.Test
     [TestClass]
     public class When_having_input : Given_When_Then
     {
+        private InputProseser _sut;
+
         protected override void Given()
         {
-            throw new NotImplementedException();
+            _sut = new InputProseser();
         }
 
         protected override void When()
         {
-            throw new NotImplementedException();
+            _sut.Loockup("test");
         }
 
         [TestMethod]
