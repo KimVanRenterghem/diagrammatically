@@ -17,12 +17,17 @@ namespace diagrammatically.Domein
         }
 
         public void Loockup(string input)
-            => _inputConsumers
-                .Select(async consumer 
-                    => (await consumer.Consume(input))
-                        .Pipe(Consume))
-                .ToArray()
-                .Pipe(Task.WhenAll);
+        //=> _inputConsumers
+        //    .Select(async consumer 
+        //        => (await consumer.Consume(input))
+        //            .Pipe(Consume))
+        //    .ToArray()
+        //    .Pipe(Task.WhenAll);
+            => Task.WhenAll(
+                _inputConsumers
+                    .Select(async consumer
+                        => Consume(await consumer.Consume(input)))
+                    .ToArray());
 
         private void Consume(IEnumerable<WordMatch> matches)
             => _optionConsumers
