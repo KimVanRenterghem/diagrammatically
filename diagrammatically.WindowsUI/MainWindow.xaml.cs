@@ -61,10 +61,14 @@ namespace diagrammatically.WindowsUI
         {
             _delaiy = delaiy;
         }
-        public async Task<IEnumerable<string>> Consume(string input)
+        public async Task<IEnumerable<WordMatch>> Consume(string input)
         {
             await Task.Delay(_delaiy);
-            return new[] { input + "een", input + "twee" };
+            return new[]
+            {
+                new WordMatch(input,input + " een" , 0 , 0, ""),
+                new WordMatch(input,input + " twee" , 0 , 0, "")
+            };
         }
     }
 }

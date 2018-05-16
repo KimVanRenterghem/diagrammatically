@@ -15,13 +15,13 @@ namespace diagrammatically.WindowsUI
 
         }
 
-        public void Consume(IEnumerable<string> options)
+        public void Consume(IEnumerable<WordMatch> options)
             => SetOptions(
                 options
-                    .Select(o
+                    .Select(word
                         => new Option
                         {
-                            Word = o
+                            Word = word.Word
                         }));
     }
 }

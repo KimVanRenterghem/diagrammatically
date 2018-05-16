@@ -1,34 +1,32 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Xunit;
 
 namespace diagrammatically.Domein.Test
 {
-    [TestClass]
     public class When_having_input : Given_When_Then
     {
         private InputProseser _sut;
-        private IEnumerable<IEnumerable<string>> _res;
-        private List<IEnumerable<string>> _options = new List<IEnumerable<string>>();
+        private readonly List<IEnumerable<WordMatch>> _matshes = new List<IEnumerable<WordMatch>>();
 
         protected override void Given()
         {
             var inputconsumerMock1 = new Mock<IInputConsumer>();
             inputconsumerMock1
                 .Setup(inputconsumer => inputconsumer.Consume("test"))
-                .Returns(Task.FromResult<IEnumerable<string>>(new[] { "testkim" }));
+                .Returns(Task.FromResult<IEnumerable<WordMatch>>(new[] { new WordMatch("test", "testkim", 10, 0, "") }));
 
             var inputconsumerMock2 = new Mock<IInputConsumer>();
             inputconsumerMock2
                 .Setup(inputconsumer => inputconsumer.Consume("test"))
-                .Returns(Task.FromResult<IEnumerable<string>>(new[] { "testkim2" }));
+                .Returns(Task.FromResult<IEnumerable<WordMatch>>(new[] { new WordMatch("test", "testkim2", 10, 0, "") }));
 
             var optionconsumerMock = new Mock<IOptionConsumer>();
             optionconsumerMock
-                .Setup(optionconsumer => optionconsumer.Consume(It.IsAny<IEnumerable<string>>()))
-                .Callback<IEnumerable<string>>(options => _options.Add(options));
+                .Setup(optionconsumer => optionconsumer.Consume(It.IsAny<IEnumerable<WordMatch>>()))
+                .Callback<IEnumerable<WordMatch>>(matches => _matshes.Add(matches));
 
             _sut = new InputProseser
                 (
@@ -39,19 +37,16 @@ namespace diagrammatically.Domein.Test
 
         protected override void When()
         {
-            _res = _sut.Loockup("test");
+            _sut.Loockup("test");
         }
 
-        [TestMethod]
-        public void Then_There_Will_Be_A_List_Of_Posibiletys()
-        {
-            _res.Should().BeEquivalentTo(new[] { "testkim" }, new[] { "testkim2" });
-        }
-
-        [TestMethod]
+        [Fact]
         public void Then_The_OprionsConsumer_Is_Called_A_List_Of_Posibiletys()
         {
-            _options.Should().BeEquivalentTo(new[] { "testkim" }, new[] { "testkim2" });
+            _matshes.Should().BeEquivalentTo(
+                new[] { new WordMatch("test", "testkim", 10, 0, "") },
+                new[] { new WordMatch("test", "testkim2", 10, 0, "") }
+                );
         }
     }
 }
