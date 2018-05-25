@@ -4,8 +4,7 @@ namespace diagrammatically.oxforddictionaries
 {
     public class SearchResulds
     {
-
-        public IEnumerable<SearchResuld> results { get; set; }
+        public IEnumerable<SearchResuld> Results { get; set; }
 
     }
 }

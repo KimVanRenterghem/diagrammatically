@@ -7,7 +7,7 @@ namespace diagrammatically.AvaloniaUi
     {
         public override void Initialize()
         {
-            AvaloniaXamlLoader.Load(this);
+            AvaloniaXamlLoaderPortableXaml.Load(this);
         }
    }
 }

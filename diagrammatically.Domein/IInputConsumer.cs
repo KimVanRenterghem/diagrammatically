@@ -5,6 +5,6 @@ namespace diagrammatically.Domein
 {
     public interface IInputConsumer
     {
-        Task<IEnumerable<WordMatch>> Consume(string input);
+        Task<IEnumerable<WordMatch>> ConsumeAsync(string input, IEnumerable<string> langs);
     }
 }

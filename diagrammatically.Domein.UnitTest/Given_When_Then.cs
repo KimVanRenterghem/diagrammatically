@@ -1,4 +1,4 @@
-﻿namespace diagrammatically.Domein.Test
+﻿namespace diagrammatically.Domein.UnitTest
 {
     public abstract class Given_When_Then
     {

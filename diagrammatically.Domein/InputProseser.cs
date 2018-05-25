@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CSharp.Pipe;
 
 namespace diagrammatically.Domein
 {
@@ -15,20 +16,20 @@ namespace diagrammatically.Domein
             _optionConsumers = optionConsumers;
         }
 
-        public void Loockup(string input)
-        //=> _inputConsumers
-        //    .Select(async consumer 
-        //        => (await consumer.Consume(input))
-        //            .Pipe(Consume))
-        //    .ToArray()
-        //    .Pipe(Task.WhenAll);
-            => Task.WhenAll(
-                _inputConsumers
-                    .Select(async consumer
-                        => Consume(await consumer.Consume(input)))
-                    .ToArray());
+        public void Loockup(string filter, IEnumerable<string> langs)
+        {
+            if (string.IsNullOrEmpty(filter))
+                return;
 
-        private void Consume(IEnumerable<WordMatch> matches)
+            _inputConsumers
+                .Select(async consumer
+                    => (await consumer.ConsumeAsync(filter, langs))
+                        .Pipe(BroadCast))
+                .ToArray()
+                .Pipe(Task.WhenAll);
+        }
+
+        private void BroadCast(IEnumerable<WordMatch> matches)
             => _optionConsumers
                 .ForEach(optionConsumer => optionConsumer.Consume(matches));
     }

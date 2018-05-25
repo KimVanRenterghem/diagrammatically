@@ -9,4 +9,8 @@
     <PackageReference Include="LiteDB" Version="4.1.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\diagrammatically.Domein\diagrammatically.Domein.csproj" />
+  </ItemGroup>
+
 </Project>

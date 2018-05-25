@@ -4,7 +4,7 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace diagrammatically.Domein.Test
+namespace diagrammatically.Domein.UnitTest
 {
     public class When_having_input : Given_When_Then
     {
@@ -15,12 +15,12 @@ namespace diagrammatically.Domein.Test
         {
             var inputconsumerMock1 = new Mock<IInputConsumer>();
             inputconsumerMock1
-                .Setup(inputconsumer => inputconsumer.Consume("test"))
+                .Setup(inputconsumer => inputconsumer.ConsumeAsync("test", new[] { "nl" }))
                 .Returns(Task.FromResult<IEnumerable<WordMatch>>(new[] { new WordMatch("test", "testkim", 10, 0, "") }));
 
             var inputconsumerMock2 = new Mock<IInputConsumer>();
             inputconsumerMock2
-                .Setup(inputconsumer => inputconsumer.Consume("test"))
+                .Setup(inputconsumer => inputconsumer.ConsumeAsync("test", new[] { "nl" }))
                 .Returns(Task.FromResult<IEnumerable<WordMatch>>(new[] { new WordMatch("test", "testkim2", 10, 0, "") }));
 
             var optionconsumerMock = new Mock<IOptionConsumer>();
@@ -37,7 +37,7 @@ namespace diagrammatically.Domein.Test
 
         protected override void When()
         {
-            _sut.Loockup("test");
+            _sut.Loockup("test", new[] { "nl" });
         }
 
         [Fact]

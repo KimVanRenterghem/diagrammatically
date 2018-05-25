@@ -1,10 +1,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using diagrammatically.Domein;
+using diagrammatically.localDictionary;
 using diagrammatically.oxforddictionaries;
 
 namespace diagrammatically.AvaloniaUi
@@ -21,10 +25,22 @@ namespace diagrammatically.AvaloniaUi
                 new OptionsConsumer(SetWords)
             };
 
-            var inputConsumers = new[] {
-                new SearchConsumer()
-            };
+            var calculator = new MatchCalculator();
 
+            var repo = new Reposetry(calculator);
+
+            var localFinder = new LocalFinder(calculator, repo);
+
+            Task.Run(() =>
+            {
+                new DixionaryLoader(repo).Load(@"C:\git\Dictionaries\Dutch.dic", "nl");
+            });
+
+
+            var inputConsumers = new IInputConsumer[] {
+                new SearchConsumer(),
+                localFinder
+            };
 
             var inputProseser = new InputProseser(inputConsumers, optionConsumers);
 
@@ -40,7 +56,7 @@ namespace diagrammatically.AvaloniaUi
 
         private void InitializeComponent()
         {
-            AvaloniaXamlLoader.Load(this);
+            AvaloniaXamlLoaderPortableXaml.Load(this);
         }
 
     }
@@ -52,7 +68,8 @@ namespace diagrammatically.AvaloniaUi
 
         public ViewModel(InputProseser inputProseser)
         {
-            this._inputProseser = inputProseser;
+            Words = new ObservableCollection<Option>();
+            _inputProseser = inputProseser;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -67,21 +84,18 @@ namespace diagrammatically.AvaloniaUi
                 if (_input == value)
                     return;
                 _input = value;
-                _inputProseser.Loockup(_input);
+                _inputProseser.Loockup(_input, new[] { "nl" });
 
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Input"));
             }
         }
 
-        private readonly ObservableCollection<Option> words = new ObservableCollection<Option>();
-
-        public ObservableCollection<Option> Words
-            => words;
+        public ObservableCollection<Option> Words { get; }
 
         public void SetWords(IEnumerable<Option> newWords)
         {
-            words.Clear();
-            newWords.ForEach(words.Add);
+            Words.Clear();
+            newWords.ForEach(Words.Add);
 
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Words"));
         }

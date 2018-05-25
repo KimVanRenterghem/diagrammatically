@@ -2,6 +2,7 @@
 
 namespace diagrammatically.localDictionary.ItgTest
 {
+    // ReSharper disable once InconsistentNaming
     public abstract class Given_When_Then :  IDisposable
     {
         protected Given_When_Then()

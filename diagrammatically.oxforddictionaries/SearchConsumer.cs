@@ -12,8 +12,11 @@ namespace diagrammatically.oxforddictionaries
 {
     public class SearchConsumer : IInputConsumer
     {
-        public async Task<IEnumerable<WordMatch>> Consume(string input)
+        public async Task<IEnumerable<WordMatch>> ConsumeAsync(string input, IEnumerable<string> langs)
         {
+            if(langs.All(l => l != "en"))
+                return new List<WordMatch>();
+
             const string language = "en";
             const string appId = "";
             const string appKey = "";
@@ -28,16 +31,16 @@ namespace diagrammatically.oxforddictionaries
             {
                 using (var response = (HttpWebResponse) await request.GetResponseAsync())
                 using (var stream = response.GetResponseStream())
-                using (var reader = new StreamReader(stream))
+                using (var reader = new StreamReader(stream ?? throw new InvalidOperationException()))
                 {
                     return reader.ReadToEnd()
                         .Pipe(JsonConvert.DeserializeObject<SearchResulds>)
-                        .results
-                        .Select(r => new WordMatch(input,r.word,r.Score, 0,"OxfordDix"))
+                        .Results
+                        .Select(r => new WordMatch(input,r.Word,r.Score, 0,"OxfordDix"))
                         .ToArray();
                 }
             }
-            catch (Exception e)
+            catch
             {
                 return new List<WordMatch>();
             }

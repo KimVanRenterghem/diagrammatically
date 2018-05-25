@@ -25,6 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\diagrammatically.Domein\diagrammatically.Domein.csproj" />
+    <ProjectReference Include="..\diagrammatically.localDictionary\diagrammatically.localDictionary.csproj" />
     <ProjectReference Include="..\diagrammatically.oxforddictionaries\diagrammatically.oxforddictionaries.csproj" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using diagrammatically.Domein;
 using FluentAssertions;
 using Xunit;
 
@@ -11,7 +12,7 @@ namespace diagrammatically.localDictionary.ItgTest.Reposetry
 
         protected override void Given()
         {
-            _sut = new localDictionary.Reposetry();
+            _sut = new localDictionary.Reposetry(new MatchCalculator());
 
             _sut.Add(new Word()
             {
