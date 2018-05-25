@@ -8,7 +8,7 @@ namespace diagrammatically.Domein
     {
         public static void ForEach<T>(this IEnumerable<T> list, Action<T> action)
             => list
-                .ToList()
+                ?.ToList()
                 .ForEach(action);
     }
 }

@@ -8,7 +8,7 @@ namespace diagrammatically.Domein.Test
 {
     public class When_having_input : Given_When_Then
     {
-        private InputProseser _sut;
+        private InputProseser _sut;        
         private readonly List<IEnumerable<WordMatch>> _matshes = new List<IEnumerable<WordMatch>>();
 
         protected override void Given()
