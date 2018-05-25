@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "diagrammatically.Domein", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "diagrammatically.Domein.UnitTest", "diagrammatically.Domein.UnitTest\diagrammatically.Domein.UnitTest.csproj", "{A1DC1A56-F8BF-42A0-BC65-D9B3A1952E40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "diagrammatically.WindowsUI", "diagrammatically.WindowsUI\diagrammatically.WindowsUI.csproj", "{171533BA-C73E-4363-B7B8-1E80F8CEB3F7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "diagrammatically.localDictionary", "diagrammatically.localDictionary\diagrammatically.localDictionary.csproj", "{D51893BD-6A16-4110-8F93-0446883A1813}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "diagrammatically.localDictionary.ItgTest", "diagrammatically.localDictionary.ItgTest\diagrammatically.localDictionary.ItgTest.csproj", "{591D6B0A-DE48-436A-A29D-D983DA6F106E}"
@@ -38,6 +36,7 @@ Global
 		{A1DC1A56-F8BF-42A0-BC65-D9B3A1952E40}.Debug|x86.Build.0 = Debug|x86
 		{A1DC1A56-F8BF-42A0-BC65-D9B3A1952E40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1DC1A56-F8BF-42A0-BC65-D9B3A1952E40}.Release|Any CPU.Build.0 = Release|Any CPU
+<<<<<<< HEAD
 		{A1DC1A56-F8BF-42A0-BC65-D9B3A1952E40}.Release|x86.ActiveCfg = Release|x86
 		{A1DC1A56-F8BF-42A0-BC65-D9B3A1952E40}.Release|x86.Build.0 = Release|x86
 		{171533BA-C73E-4363-B7B8-1E80F8CEB3F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -64,6 +63,8 @@ Global
 		{591D6B0A-DE48-436A-A29D-D983DA6F106E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{591D6B0A-DE48-436A-A29D-D983DA6F106E}.Release|x86.ActiveCfg = Release|Any CPU
 		{591D6B0A-DE48-436A-A29D-D983DA6F106E}.Release|x86.Build.0 = Release|Any CPU
+=======
+>>>>>>> update sln
 		{5B39067B-1BB7-49E2-90DC-E2D8B8CC345A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5B39067B-1BB7-49E2-90DC-E2D8B8CC345A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B39067B-1BB7-49E2-90DC-E2D8B8CC345A}.Release|Any CPU.ActiveCfg = Release|Any CPU
