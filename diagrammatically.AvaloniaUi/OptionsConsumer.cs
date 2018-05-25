@@ -7,21 +7,21 @@ namespace diagrammatically.AvaloniaUi
 {
     public class OptionsConsumer : IOptionConsumer
     {
-        private readonly Action<IEnumerable<Option>> SetOptions;
+        private readonly Action<IEnumerable<Option>> _setOptions;
 
         public OptionsConsumer(Action<IEnumerable<Option>> setOptions)
         {
-            SetOptions = setOptions;
+            _setOptions = setOptions;
 
         }
 
-        public void Consume(IEnumerable<string> options)
-            => SetOptions(
-                options
-                    .Select(o
+        public void Consume(IEnumerable<WordMatch> wordMatches)
+            => _setOptions(
+                wordMatches
+                    .Select(wordMatch
                         => new Option
                         {
-                            Word = o
+                            Word = wordMatch.Word
                         }));
     }
 }

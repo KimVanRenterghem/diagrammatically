@@ -12,7 +12,7 @@ namespace diagrammatically.oxforddictionaries
 {
     public class SearchConsumer : IInputConsumer
     {
-        public async Task<IEnumerable<string>> Consume(string input)
+        public async Task<IEnumerable<WordMatch>> Consume(string input)
         {
             const string language = "en";
             const string appId = "";
@@ -33,13 +33,13 @@ namespace diagrammatically.oxforddictionaries
                     return reader.ReadToEnd()
                         .Pipe(JsonConvert.DeserializeObject<SearchResulds>)
                         .results
-                        .Select(r => r.word)
+                        .Select(r => new WordMatch(input,r.word,r.Score, 0,"OxfordDix"))
                         .ToArray();
                 }
             }
             catch (Exception e)
             {
-                return new string[0];
+                return new List<WordMatch>();
             }
         }
     }
