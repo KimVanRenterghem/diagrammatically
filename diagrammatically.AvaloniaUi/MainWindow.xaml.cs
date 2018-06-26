@@ -14,16 +14,22 @@ namespace diagrammatically.AvaloniaUi
 {
     public class MainWindow : Window
     {
-        private readonly ViewModel _vm;
-        private readonly Reposetry _reposetry;
-        private readonly IMatchCalculator _matchCalculator;
+        private ViewModel _vm;
+        private Reposetry _reposetry;
+        private IMatchCalculator _matchCalculator;
         private Button _bttLoadNl;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            var optionConsumers = new[] {
+            BuildDependencys();
+        }
+
+        private void BuildDependencys()
+        {
+            var optionConsumers = new[]
+            {
                 new OptionsConsumer(SetWords)
             };
 
@@ -33,7 +39,8 @@ namespace diagrammatically.AvaloniaUi
 
             var localFinder = new LocalFinder(_matchCalculator, _reposetry);
 
-            var inputConsumers = new IInputConsumer[] {
+            var inputConsumers = new IInputConsumer[]
+            {
                 new SearchConsumer(),
                 localFinder
             };
@@ -54,7 +61,7 @@ namespace diagrammatically.AvaloniaUi
         {
             AvaloniaXamlLoaderPortableXaml.Load(this);
 
-            _bttLoadNl = this.Find<Button>("_bttLoadNl");
+            _bttLoadNl = this.Find<Button>("BttLoadNl");
             _bttLoadNl.Click += BttLoadNlClick;
         }
 
@@ -72,17 +79,15 @@ namespace diagrammatically.AvaloniaUi
     public class ViewModel : INotifyPropertyChanged
     {
         private string _input;
-        private readonly InputProseser _inputProseser;
+        private readonly IInputProseser _inputProseser;
 
-        public ViewModel(InputProseser inputProseser)
+        public ViewModel(IInputProseser inputProseser)
         {
             Words = new ObservableCollection<Option>();
             _inputProseser = inputProseser;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-
 
         public string Input
         {
@@ -91,6 +96,7 @@ namespace diagrammatically.AvaloniaUi
             {
                 if (_input == value)
                     return;
+                
                 _input = value;
                 _inputProseser.Loockup(_input, new[] { "nl" });
 
@@ -98,7 +104,6 @@ namespace diagrammatically.AvaloniaUi
 
                 if(string.IsNullOrEmpty(_input))
                     SetWords(new Option[0]);
-
             }
         }
 

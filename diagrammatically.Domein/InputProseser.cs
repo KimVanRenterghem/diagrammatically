@@ -5,7 +5,12 @@ using CSharp.Pipe;
 
 namespace diagrammatically.Domein
 {
-    public class InputProseser
+    public interface IInputProseser
+    {
+        void Loockup(string filter, IEnumerable<string> langs);
+    }
+
+    public class InputProseser : IInputProseser
     {
         private readonly IEnumerable<IInputConsumer> _inputConsumers;
         private readonly IEnumerable<IOptionConsumer> _optionConsumers;
