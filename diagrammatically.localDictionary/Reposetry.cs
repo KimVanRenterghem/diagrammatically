@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using CSharp.Pipe;
 using diagrammatically.Domein;
 using LiteDB;
 
 namespace diagrammatically.localDictionary
 {
-    public class Reposetry 
+    public class Reposetry
     {
         private readonly IMatchCalculator _matchCalculator;
 
@@ -14,16 +16,25 @@ namespace diagrammatically.localDictionary
             _matchCalculator = matchCalculator;
         }
 
-        private string connextion = "Filename=words.db;Flush=True";
+        private string Connextion(WordKey word)
+        {
+            var first = word.Word
+                .First()
+                .Pipe(_matchCalculator.Replace);
+
+            return $"Filename=words_{first}_ {word.Lang}.db;Flush=True";
+        }
+
         public void Add(Word word)
         {
             if (string.IsNullOrEmpty(word.Id.Word) || string.IsNullOrEmpty(word.Id.Lang))
                 return;
 
-            using (var db = new LiteDatabase(connextion))
+            word.Id.Word = word.Id.Word.ToLower();
+
+            using (var db = new LiteDatabase(Connextion(word.Id)))
             {
                 var col = db.GetCollection<Word>("words");
-                word.Id.Word = word.Id.Word.ToLower();
 
                 try
                 {
@@ -38,23 +49,31 @@ namespace diagrammatically.localDictionary
 
         public IEnumerable<Word> Get(string word, IEnumerable<string> langs)
         {
-            using (var db = new LiteDatabase(connextion))
-            {
-                word = word.ToLower();
-                var col = db.GetCollection<Word>("words");
+            word = word.ToLower();
 
-                return col.Find(x
-                    => langs.Any(l => x.Id.Lang == l) && (x.Id.Word.StartsWith(word) ||
-                       word.Length <= x.Id.Word.Length && _matchCalculator.Calculate(word, x.Id.Word) >= 0.6));
-            }
+            return langs
+                .Select(lang => new WordKey
+                {
+                    Lang = lang,
+                    Word = word
+                })
+                .SelectMany(wordKey =>
+                {
+                    using (var db = new LiteDatabase(Connextion(wordKey)))
+                    {
+                        var col = db.GetCollection<Word>("words");
+
+                        return col.Find(x
+                            => x.Id.Word.StartsWith(word) ||
+                               word.Length <= x.Id.Word.Length && _matchCalculator.Calculate(word, x.Id.Word) >= 0.6);
+                    }
+                })
+                .ToList();
         }
 
         public void Drop()
         {
-            using (var db = new LiteDatabase(connextion))
-            {
-                db.DropCollection("words");
-            }
+           Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "words_*.db").ForEach(File.Delete);
         }
     }
 }

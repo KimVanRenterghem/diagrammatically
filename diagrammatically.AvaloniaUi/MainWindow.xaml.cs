@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using diagrammatically.Domein;
@@ -16,6 +15,8 @@ namespace diagrammatically.AvaloniaUi
     public class MainWindow : Window
     {
         private ViewModel _vm;
+        private Reposetry _reposetry;
+        private IMatchCalculator _matchCalculator;
 
         public MainWindow()
         {
@@ -25,17 +26,11 @@ namespace diagrammatically.AvaloniaUi
                 new OptionsConsumer(SetWords)
             };
 
-            var calculator = new MatchCalculator();
+            _matchCalculator = new MatchCalculator();
 
-            var repo = new Reposetry(calculator);
+            _reposetry = new Reposetry(_matchCalculator);
 
-            var localFinder = new LocalFinder(calculator, repo);
-
-            Task.Run(() =>
-            {
-                new DixionaryLoader(repo).Load(@"C:\git\Dictionaries\Dutch.dic", "nl");
-            });
-
+            var localFinder = new LocalFinder(_matchCalculator, _reposetry);
 
             var inputConsumers = new IInputConsumer[] {
                 new SearchConsumer(),
@@ -57,9 +52,22 @@ namespace diagrammatically.AvaloniaUi
         private void InitializeComponent()
         {
             AvaloniaXamlLoaderPortableXaml.Load(this);
+            BttLoadNl = this.Find<Button>("BttLoadNl");
+            BttLoadNl.Click += BttLoadNlClick;
         }
 
+        private void BttLoadNlClick(object sender, RoutedEventArgs e)
+        {
+            Task.Run(() =>
+            {
+                new DixionaryLoader(_reposetry, _matchCalculator, new OptionsConsumer(SetWords)).Load(@"C:\git\Dictionaries\Dutch.dic", "nl");
+            });
+        }
+
+        public Button BttLoadNl { get; set; }
     }
+
+
 
     public class ViewModel : INotifyPropertyChanged
     {

@@ -1,5 +1,8 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using CSharp.Pipe;
+using diagrammatically.Domein;
 using diagrammatically.localDictionary;
 
 namespace diagrammatically.AvaloniaUi
@@ -7,29 +10,83 @@ namespace diagrammatically.AvaloniaUi
     public class DixionaryLoader
     {
         private readonly Reposetry _repo;
+        private readonly IMatchCalculator _calculator;
+        private readonly IOptionConsumer _consumer;
 
-        public DixionaryLoader(Reposetry repo)
+        public DixionaryLoader(Reposetry repo, IMatchCalculator calculator, IOptionConsumer consumer)
         {
             _repo = repo;
+            _calculator = calculator;
+            _consumer = consumer;
         }
+
+        /// <summary>
+        /// uses https://github.com/KimVanRenterghem/Dictionaries .dic file as seed
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="lang"></param>
         public void Load(string path, string lang)
         {
-            //uses https://github.com/KimVanRenterghem/Dictionaries .dic file as seed
             using (var reader = new StreamReader(path))
             {
                 reader.ReadLine();
                 reader.ReadLine();
+                var letter = '1';
                 while (!reader.EndOfStream)
                 {
-                    var word = reader.ReadLine()?.Split('/').First();
-                    _repo.Add(new Word
+                    var word = reader.ReadLine()
+                        ?.Split('/')
+                        .First()
+                        .ToLower();
+
+                    if (!string.IsNullOrEmpty(word))
                     {
-                        Id = new WordKey
+                        using (var file = new StreamWriter($"words_{_calculator.Replace(word.First())}_{lang}.txt",
+                            true))
                         {
-                            Word = word,
-                            Lang = lang
+                            file.WriteLine(word);
                         }
-                    });
+                    }
+                }
+            }
+
+            Directory.GetFiles(Directory.GetCurrentDirectory(), "words_*.txt")
+                .Select(RealLetterWords)
+                .ToList()
+                .Pipe(Task.WhenAll)
+                .Wait();
+        }
+
+        private async Task RealLetterWords(string filepath)
+        {
+            await Task.Run(() => ReadWordsFile());
+
+            void ReadWordsFile()
+            {
+                var lang = filepath
+                    .Split('\\')
+                    .Last()
+                    .Split('.')
+                    .First()
+                    .Split('_')
+                    .Last();
+                lang = "nl";
+
+                using (var reader = new StreamReader(filepath))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        var word = reader.ReadLine();
+                        var wordObject = new Word
+                        {
+                            Id = new WordKey
+                            {
+                                Word = word,
+                                Lang = lang
+                            }
+                        };
+                        _repo.Add(wordObject);
+                    }
                 }
             }
         }
