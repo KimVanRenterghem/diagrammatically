@@ -4,11 +4,11 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace diagrammatically.Domein.UnitTest
+namespace diagrammatically.Domein.UnitTest.InputProseser
 {
     public class When_having_input : Given_When_Then
     {
-        private InputProseser _sut;        
+        private Domein.InputProseser _sut;        
         private readonly List<IEnumerable<WordMatch>> _matshes = new List<IEnumerable<WordMatch>>();
 
         protected override void Given()
@@ -28,7 +28,7 @@ namespace diagrammatically.Domein.UnitTest
                 .Setup(optionconsumer => optionconsumer.Consume(It.IsAny<IEnumerable<WordMatch>>()))
                 .Callback<IEnumerable<WordMatch>>(matches => _matshes.Add(matches));
 
-            _sut = new InputProseser
+            _sut = new Domein.InputProseser
                 (
                     new[] { inputconsumerMock1.Object, inputconsumerMock2.Object },
                     new[] { optionconsumerMock.Object }
