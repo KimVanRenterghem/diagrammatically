@@ -14,9 +14,12 @@ namespace diagrammatically.Domein
 
         public void Loockup(string filter, IEnumerable<string> langs)
         {
-            filter = filter.Split(' ')
+            filter = filter
+                .Split(' ')
+                .Last()
+                .Split('_')
                 .Last();
-            _inputProseser.Loockup(filter, langs);    
+            _inputProseser.Loockup(filter, langs);
         }
     }
 }
