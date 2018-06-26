@@ -14,9 +14,10 @@ namespace diagrammatically.AvaloniaUi
 {
     public class MainWindow : Window
     {
-        private ViewModel _vm;
-        private Reposetry _reposetry;
-        private IMatchCalculator _matchCalculator;
+        private readonly ViewModel _vm;
+        private readonly Reposetry _reposetry;
+        private readonly IMatchCalculator _matchCalculator;
+        private Button _bttLoadNl;
 
         public MainWindow()
         {
@@ -52,8 +53,9 @@ namespace diagrammatically.AvaloniaUi
         private void InitializeComponent()
         {
             AvaloniaXamlLoaderPortableXaml.Load(this);
-            BttLoadNl = this.Find<Button>("BttLoadNl");
-            BttLoadNl.Click += BttLoadNlClick;
+
+            _bttLoadNl = this.Find<Button>("_bttLoadNl");
+            _bttLoadNl.Click += BttLoadNlClick;
         }
 
         private void BttLoadNlClick(object sender, RoutedEventArgs e)
@@ -63,8 +65,6 @@ namespace diagrammatically.AvaloniaUi
                 new DixionaryLoader(_reposetry, _matchCalculator, new OptionsConsumer(SetWords)).Load(@"C:\git\Dictionaries\Dutch.dic", "nl");
             });
         }
-
-        public Button BttLoadNl { get; set; }
     }
 
 
@@ -95,6 +95,10 @@ namespace diagrammatically.AvaloniaUi
                 _inputProseser.Loockup(_input, new[] { "nl" });
 
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Input"));
+
+                if(string.IsNullOrEmpty(_input))
+                    SetWords(new Option[0]);
+
             }
         }
 
