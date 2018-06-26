@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CSharp.Pipe;
 using diagrammatically.Domein;
 
 namespace diagrammatically.AvaloniaUi
@@ -16,12 +17,15 @@ namespace diagrammatically.AvaloniaUi
         }
 
         public void Consume(IEnumerable<WordMatch> wordMatches)
-            => _setOptions(
-                wordMatches
-                    .Select(wordMatch
-                        => new Option
-                        {
-                            Word = wordMatch.Word
-                        }));
+            => wordMatches
+                .OrderByDescending(wordMatch => wordMatch.Match)
+                .ThenBy(wordMatch => wordMatch.Word.Length)
+                .Take(10)
+                .Select(wordMatch
+                    => new Option
+                    {
+                        Word = wordMatch.Word
+                    })
+                .Pipe(_setOptions);
     }
 }
