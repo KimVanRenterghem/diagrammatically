@@ -46,7 +46,7 @@ namespace diagrammatically.AvaloniaUi
             };
 
             var inputProseser = new InputProseser(inputConsumers, optionConsumers);
-            var splitter = new WordSplitter(inputProseser);
+            var splitter = new CreateWordInPut(inputProseser);
             _vm = new ViewModel(splitter);
 
             DataContext = _vm;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using CSharp.Pipe;
 using diagrammatically.Domein;
 using LiteDB;
@@ -73,7 +74,8 @@ namespace diagrammatically.localDictionary
 
         public void Drop()
         {
-           Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "words_*.db").ForEach(File.Delete);
+            Task.Delay(750).Wait();
+            Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "words_*.db").ForEach(File.Delete);
         }
     }
 }

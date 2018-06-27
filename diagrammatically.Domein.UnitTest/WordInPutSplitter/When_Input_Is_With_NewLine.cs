@@ -3,11 +3,11 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace diagrammatically.Domein.UnitTest.WordSplitter
+namespace diagrammatically.Domein.UnitTest.WordInPutSplitter
 {
-    public class When_Input_Is_With_Spase : Given_When_Then
+    public class When_Input_Is_With_NewLine : Given_When_Then
     {
-        private Domein.WordSplitter _sub;
+        private Domein.CreateWordInPut _sub;
         private string _search;
 
         protected override void Given()
@@ -15,22 +15,22 @@ namespace diagrammatically.Domein.UnitTest.WordSplitter
             var inputProseserMock = new Mock<IInputProseser>();
 
             inputProseserMock
-                .Setup(inputProseser => inputProseser.Loockup(It.IsAny<string>(), new[] {"nl"}))
+                .Setup(inputProseser => inputProseser.Loockup(It.IsAny<string>(), new[] {"en"}))
                 .Callback<string,IEnumerable<string>>((search,lang) => _search = search);
 
 
-            _sub = new Domein.WordSplitter(inputProseserMock.Object);
+            _sub = new Domein.CreateWordInPut(inputProseserMock.Object);
         }
 
         protected override void When()
         {
-            _sub.Loockup("bet en", new []{"nl"});
+            _sub.Loockup("given when\nthen", new []{"en"});
         }
 
         [Fact]
         public void Then_The_Last_Word_Shoold_Be_Searched()
         {
-            _search.Should().Be("en");
+            _search.Should().Be("then");
         }
     }
 }
