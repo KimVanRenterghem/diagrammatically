@@ -18,6 +18,8 @@ namespace diagrammatically.Domein
 
         public void Loockup(string filter, IEnumerable<string> langs)
         {
+            //test for words and sentenses
+            //add ISentensConsumer for secendlast
             var sentenses = SplitInWords(filter, _sentensSpliters, new char[0]);
             filter = sentenses.Last();
 
@@ -35,7 +37,8 @@ namespace diagrammatically.Domein
             // multiple matches
             // multiple mixed matches
             // visebel
-            // unviseble
+            // unviseble last
+            // char match
 
             Func<string, string> TrimSplitters(char[] invisebel)
             {

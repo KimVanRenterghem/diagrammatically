@@ -3,9 +3,9 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace diagrammatically.Domein.UnitTest.WordInPutSplitter
+namespace diagrammatically.Domein.UnitTest.CreateWordInPut
 {
-    public class When_Input_Is_With_Mixed : Given_When_Then
+    public class When_Input_Is_With_Tab : Given_When_Then
     {
         private Domein.CreateWordInPut _sub;
         private string _search;
@@ -24,13 +24,13 @@ namespace diagrammatically.Domein.UnitTest.WordInPutSplitter
 
         protected override void When()
         {
-            _sub.Loockup("Given WhenTh_en", new []{"en"});
+            _sub.Loockup("given when\then", new []{"en"});
         }
 
         [Fact]
         public void Then_The_Last_Word_Shoold_Be_Searched()
         {
-            _search.Should().Be("en");
+            _search.Should().Be("hen");
         }
     }
 }

@@ -3,9 +3,9 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace diagrammatically.Domein.UnitTest.WordInPutSplitter
+namespace diagrammatically.Domein.UnitTest.CreateWordInPut
 {
-    public class When_Input_Is_With_Underscore : Given_When_Then
+    public class When_Input_Is_With_Spase : Given_When_Then
     {
         private Domein.CreateWordInPut _sub;
         private string _search;
@@ -24,7 +24,7 @@ namespace diagrammatically.Domein.UnitTest.WordInPutSplitter
 
         protected override void When()
         {
-            _sub.Loockup("bet_en", new []{"nl"});
+            _sub.Loockup("bet en", new []{"nl"});
         }
 
         [Fact]

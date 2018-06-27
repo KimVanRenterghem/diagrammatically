@@ -3,7 +3,7 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace diagrammatically.Domein.UnitTest.WordInPutSplitter
+namespace diagrammatically.Domein.UnitTest.CreateWordInPut
 {
     public class When_Input_Is_With_Kammelcase : Given_When_Then
     {
