@@ -28,6 +28,12 @@ namespace diagrammatically.AvaloniaUi
 
         private void BuildDependencys()
         {
+            var wordSpliters = " _\n\t".ToCharArray();
+            var sentensSpliters = ".,!?:;()&|".ToCharArray();
+            var uppers = "ABCDEFGHIJKLMNOPQRSTUVWYYZ".ToCharArray();
+
+            var wordsplitter = new WordsSplitter(wordSpliters, uppers);
+            var sentenssplitter = new WordsSplitter(sentensSpliters, new char[0]);
             var optionConsumers = new[]
             {
                 new OptionsConsumer(SetWords)
@@ -46,7 +52,7 @@ namespace diagrammatically.AvaloniaUi
             };
 
             var inputProseser = new InputProseser(inputConsumers, optionConsumers);
-            var splitter = new CreateWordInPut(inputProseser);
+            var splitter = new CreateWordInPut(inputProseser, wordsplitter, sentenssplitter);
             _vm = new ViewModel(splitter);
 
             DataContext = _vm;
@@ -69,7 +75,7 @@ namespace diagrammatically.AvaloniaUi
         {
             Task.Run(() =>
             {
-                new DixionaryLoader(_reposetry, _matchCalculator, new OptionsConsumer(SetWords)).Load(@"C:\git\Dictionaries\Dutch.dic", "nl");
+                new DixionaryLoader(_reposetry, _matchCalculator).Load(@"C:\git\Dictionaries\Dutch.dic", "nl");
             });
         }
     }

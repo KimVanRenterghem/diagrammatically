@@ -11,13 +11,11 @@ namespace diagrammatically.AvaloniaUi
     {
         private readonly Reposetry _repo;
         private readonly IMatchCalculator _calculator;
-        private readonly IOptionConsumer _consumer;
 
-        public DixionaryLoader(Reposetry repo, IMatchCalculator calculator, IOptionConsumer consumer)
+        public DixionaryLoader(Reposetry repo, IMatchCalculator calculator)
         {
             _repo = repo;
             _calculator = calculator;
-            _consumer = consumer;
         }
 
         /// <summary>
@@ -31,7 +29,6 @@ namespace diagrammatically.AvaloniaUi
             {
                 reader.ReadLine();
                 reader.ReadLine();
-                var letter = '1';
                 while (!reader.EndOfStream)
                 {
                     var word = reader.ReadLine()
