@@ -12,22 +12,21 @@ before_build:
   # Display .NET Core version
   - cmd: dotnet --version
   # Display minimal restore text
-  - cmd: dotnet restore ./src/src.csproj --verbosity m
+  - cmd: dotnet restore .\diagrammatically.AvaloniaUi\diagrammatically.AvaloniaUi.csproj --verbosity m
 build_script:
-  # output will be in ./src/bin/debug/netcoreapp1.1/publish
-  - cmd: dotnet publish ./src/src.csproj
+  - cmd: dotnet publish .\diagrammatically.AvaloniaUi\diagrammatically.AvaloniaUi.csproj
 after_build:
   # For once the build has completed
-artifacts:
- - path: '\src\bin\Debug\netcoreapp1.1\publish'
-   name: WebSite
-   type: WebDeployPackage
+#artifacts:
+# - path: '\diagrammatically.AvaloniaUi\bin\Debug\netcoreapp2.0\publish'
+#   name: WebSite
+#   type: WebDeployPackage
 clone_depth: 1
 test_script:
   # restore packages for our unit tests
-  - cmd: dotnet restore ./tests/tests.csproj --verbosity m
+  - cmd: dotnet restore ./diagrammatically.Domein.UnitTest/diagrammatically.Domein.UnitTest.csproj --verbosity m
   # run the unit tests (requires changing into the test directory)
-  - cmd: cd tests
+  - cmd: cd diagrammatically.Domein.UnitTest
   - cmd: dotnet xunit
 on_finish :
   # any cleanup in here
