@@ -17,3 +17,5 @@ the base rules will be
 1. there should be the ability of multiple online dictionaries by extensions/plugins
 
 if anybody wants to join this project just contact me. but i want this project to be open source!
+
+[![Build status](https://ci.appveyor.com/api/projects/status/0hm9fmcxgwmaem0d?svg=true)](https://ci.appveyor.com/project/KimVanRenterghem/diagrammatically)
