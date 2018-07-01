@@ -25,9 +25,9 @@ build_script:
 after_build:
   # For once the build has completed
 #artifacts:
-# - path: '\diagrammatically.AvaloniaUi\bin\Debug\netcoreapp2.0\publish'
-#   name: WebSite
-#   type: WebDeployPackage
+ - path: '\diagrammatically.AvaloniaUi\bin\Debug\netcoreapp2.0\publish'
+   name: diagrammatically.AvaloniaUi
+   type: Auto
 clone_depth: 1
 test_script:
   # restore packages for our unit tests
