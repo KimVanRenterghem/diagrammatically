@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CSharp.Pipe;
 using diagrammatically.Domein;
+using diagrammatically.Domein.Interfaces;
 using diagrammatically.localDictionary;
 
 namespace diagrammatically.AvaloniaUi
@@ -49,19 +50,18 @@ namespace diagrammatically.AvaloniaUi
 
             Directory.CreateDirectory("Data/Words/");
 
-            Directory.GetFiles(Directory.GetCurrentDirectory(), "words_*.txt")
+            Directory.GetFiles(Directory.GetCurrentDirectory(), $"words_*_{lang}.txt")
                 .Select(RealLetterWords)
                 .ToList()
                 .Pipe(Task.WhenAll)
-                .Wait();
-
-            Directory.GetFiles(Directory.GetCurrentDirectory(), "words_*.txt")
+                .Result
                 .ForEach(File.Delete);
         }
 
-        private async Task RealLetterWords(string filepath)
+        private async Task<string> RealLetterWords(string filepath)
         {
             await Task.Run(() => ReadWordsFile());
+            return filepath;
 
             void ReadWordsFile()
             {

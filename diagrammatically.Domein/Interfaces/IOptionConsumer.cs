@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace diagrammatically.Domein
+namespace diagrammatically.Domein.Interfaces
 {
     public interface IOptionConsumer
     {

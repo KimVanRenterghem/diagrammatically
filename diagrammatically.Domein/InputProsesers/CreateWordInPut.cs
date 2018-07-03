@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using diagrammatically.Domein.Interfaces;
 
-namespace diagrammatically.Domein
+namespace diagrammatically.Domein.InputProsesers
 {
     public class CreateWordInPut : IInputProseser
     {
@@ -16,17 +17,15 @@ namespace diagrammatically.Domein
             _sentensSplitter = sentensSplitter;
         }
 
-        public void Loockup(string filter, IEnumerable<string> langs)
+        public void Loockup(string filter, string source, IEnumerable<string> langs)
         {
-            //test for words and sentenses
-            //add ISentensConsumer for secendlast
             var sentenses = _sentensSplitter.Split(filter);
             filter = sentenses.Last();
 
             var words = _wordsSplitter.Split(filter);
 
             filter = words.Last();
-            _inputProseser.Loockup(filter, langs);
+            _inputProseser.Loockup(filter, source, langs);
         }
     }
 }

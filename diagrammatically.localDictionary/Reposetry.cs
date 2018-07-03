@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CSharp.Pipe;
 using diagrammatically.Domein;
+using diagrammatically.Domein.Interfaces;
 using LiteDB;
 
 namespace diagrammatically.localDictionary

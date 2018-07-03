@@ -7,6 +7,8 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using diagrammatically.Domein;
+using diagrammatically.Domein.InputProsesers;
+using diagrammatically.Domein.Interfaces;
 using diagrammatically.localDictionary;
 using diagrammatically.oxforddictionaries;
 
@@ -14,53 +16,37 @@ namespace diagrammatically.AvaloniaUi
 {
     public class MainWindow : Window
     {
-        private ViewModel _vm;
-        private Reposetry _reposetry;
-        private IMatchCalculator _matchCalculator;
+        public static MainWindow Singel { get; private set; }
+
+        public ViewModel ViewModel
+        {
+            private get => _viewModel;
+            set
+            {
+                _viewModel = value;
+
+                Dispatcher.UIThread.InvokeAsync(() => DataContext = _viewModel);
+            }
+        }
+        public Reposetry Reposetry { set; private get; }
+        public IMatchCalculator MatchCalculator { set; get; }
+
+
         private Button _bttLoadNl;
+        private ViewModel _viewModel;
+        private Button _bttLoadEn;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            BuildDependencys();
+            Singel = this;
         }
 
-        private void BuildDependencys()
+        
+
+        public void SetWords(IEnumerable<Option> options)
         {
-            var wordSpliters = " _\n\t".ToCharArray();
-            var sentensSpliters = ".,!?:;()&|".ToCharArray();
-            var uppers = "ABCDEFGHIJKLMNOPQRSTUVWYYZ".ToCharArray();
-
-            var wordsplitter = new WordsSplitter(wordSpliters, uppers);
-            var sentenssplitter = new WordsSplitter(sentensSpliters, new char[0]);
-            var optionConsumers = new[]
-            {
-                new OptionsConsumer(SetWords)
-            };
-
-            _matchCalculator = new MatchCalculator();
-
-            _reposetry = new Reposetry(_matchCalculator);
-
-            var localFinder = new LocalFinder(_matchCalculator, _reposetry);
-
-            var inputConsumers = new IInputConsumer[]
-            {
-                new SearchConsumer(),
-                localFinder
-            };
-
-            var inputProseser = new InputProseser(inputConsumers, optionConsumers);
-            var splitter = new CreateWordInPut(inputProseser, wordsplitter, sentenssplitter);
-            _vm = new ViewModel(splitter);
-
-            DataContext = _vm;
-        }
-
-        private void SetWords(IEnumerable<Option> options)
-        {
-            Dispatcher.UIThread.InvokeAsync(() => _vm.SetWords(options));
+            Dispatcher.UIThread.InvokeAsync(() => ViewModel.SetWords(options));
         }
 
         private void InitializeComponent()
@@ -69,13 +55,23 @@ namespace diagrammatically.AvaloniaUi
 
             _bttLoadNl = this.Find<Button>("BttLoadNl");
             _bttLoadNl.Click += BttLoadNlClick;
+
+            _bttLoadEn = this.Find<Button>("BttLoadEn");
+            _bttLoadEn.Click += BttLoadEnClick;
         }
 
         private void BttLoadNlClick(object sender, RoutedEventArgs e)
         {
             Task.Run(() =>
             {
-                new DixionaryLoader(_reposetry, _matchCalculator).Load(@"C:\git\Dictionaries\Dutch.dic", "nl");
+                new DixionaryLoader(Reposetry, MatchCalculator).Load(@"C:\git\Dictionaries\Dutch.dic", "nl");
+            });
+        }
+        private void BttLoadEnClick(object sender, RoutedEventArgs e)
+        {
+            Task.Run(() =>
+            {
+                new DixionaryLoader(Reposetry, MatchCalculator).Load(@"C:\git\Dictionaries\English (British).dic", "en");
             });
         }
     }
@@ -85,33 +81,13 @@ namespace diagrammatically.AvaloniaUi
     public class ViewModel : INotifyPropertyChanged
     {
         private string _input;
-        private readonly IInputProseser _inputProseser;
 
-        public ViewModel(IInputProseser inputProseser)
+        public ViewModel()
         {
             Words = new ObservableCollection<Option>();
-            _inputProseser = inputProseser;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public string Input
-        {
-            get => _input;
-            set
-            {
-                if (_input == value)
-                    return;
-                
-                _input = value;
-                _inputProseser.Loockup(_input, new[] { "nl" });
-
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Input"));
-
-                if(string.IsNullOrEmpty(_input))
-                    SetWords(new Option[0]);
-            }
-        }
 
         public ObservableCollection<Option> Words { get; }
 

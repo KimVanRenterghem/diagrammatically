@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CSharp.Pipe;
 using diagrammatically.Domein;
+using diagrammatically.Domein.Interfaces;
 
 namespace diagrammatically.AvaloniaUi
 {

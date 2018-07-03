@@ -6,6 +6,7 @@ using System.Net;
 using System.Threading.Tasks;
 using diagrammatically.Domein;
 using CSharp.Pipe;
+using diagrammatically.Domein.Interfaces;
 using Newtonsoft.Json;
 
 namespace diagrammatically.oxforddictionaries

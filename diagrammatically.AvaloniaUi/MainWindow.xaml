@@ -4,8 +4,8 @@
         Width="420" Height="320">
   <StackPanel Orientation="Horizontal">
         <StackPanel Orientation="Vertical">
-            <TextBox Text="{Binding Input, Mode=TwoWay}" VerticalAlignment="Top" Margin="5" Width="200" Height="30" ></TextBox>
             <Button Margin="5" Width="200" Height="30" Name="BttLoadNl">Load nl dix</Button>
+            <Button Margin="5" Width="200" Height="30" Name="BttLoadEn">Load en dix</Button>
       </StackPanel>
         <StackPanel Orientation="Vertical">
       <ListBox Width="200" Height="300" Items="{Binding Words}" Margin="5" IsVisible="{Binding !!Words.Count}"/>

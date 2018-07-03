@@ -2,14 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using CSharp.Pipe;
+using diagrammatically.Domein.Interfaces;
 
-namespace diagrammatically.Domein
+namespace diagrammatically.Domein.InputProsesers
 {
-    public interface IInputProseser
-    {
-        void Loockup(string filter, IEnumerable<string> langs);
-    }
-
     public class InputProseser : IInputProseser
     {
         private readonly IEnumerable<IInputConsumer> _inputConsumers;
@@ -21,7 +17,7 @@ namespace diagrammatically.Domein
             _optionConsumers = optionConsumers;
         }
 
-        public void Loockup(string filter, IEnumerable<string> langs)
+        public void Loockup(string filter, string source, IEnumerable<string> langs)
         {
             if (string.IsNullOrEmpty(filter))
                 return;

@@ -1,4 +1,4 @@
-﻿namespace diagrammatically.Domein
+﻿namespace diagrammatically.Domein.Interfaces
 {
     public interface IMatchCalculator
     {

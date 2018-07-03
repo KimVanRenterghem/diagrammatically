@@ -1,7 +1,13 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Avalonia;
-using Avalonia.Logging.Serilog;
+using diagrammatically.Domein;
+using diagrammatically.Domein.InputProsesers;
+using diagrammatically.Domein.Interfaces;
+using diagrammatically.localDictionary;
+using diagrammatically.oxforddictionaries;
 using Keystroke.API;
+using Keystroke.API.CallbackObjects;
 
 namespace diagrammatically.AvaloniaUi
 {
@@ -12,17 +18,68 @@ namespace diagrammatically.AvaloniaUi
 
             using (var api = new KeystrokeAPI())
             {
-                api.CreateKeyboardHook((character) => { Console.Write(character); });
+                InputGenerator inputGenerator = null;
+                
+                Task.Run(() =>
+                {
+                    while (inputGenerator == null)
+                    {
+                        if (MainWindow.Singel != null)
+                        {
+                            var inputprosecer = BuildDependencys(MainWindow.Singel);
+                            inputGenerator = new InputGenerator(inputprosecer);
+                        }
+                        else
+                        {
+                            Task.Delay(30).Wait();
+                        }
+                    }
+                });
 
+                api.CreateKeyboardHook(key => inputGenerator.Genrrate(new[] { "nl"})(key));
 
-
-                //System.Windows.Forms.Application.EnableVisualStyles();
-                //System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
-                //AppBuilder.Configure<App>().UseWin32().UseDirect2D1().SetupWithoutStarting();
-                //System.Windows.Forms.Application.Run(new MainWindow());
                 BuildAvaloniaApp()
                     .Start<MainWindow>();
+
             }
+        }
+
+        private static IInputProseser BuildDependencys(MainWindow main)
+        {
+            var wordSpliters = " _\n\t".ToCharArray();
+            var sentensSpliters = ".,!?:;()&|".ToCharArray();
+            var uppers = "ABCDEFGHIJKLMNOPQRSTUVWYYZ".ToCharArray();
+
+            var wordsplitter = new WordsSplitter(wordSpliters, uppers);
+            var sentenssplitter = new WordsSplitter(sentensSpliters, new char[0]);
+
+
+            var matchCalculator = new MatchCalculator();
+
+            var reposetry = new Reposetry(matchCalculator);
+
+            var localFinder = new LocalFinder(matchCalculator, reposetry);
+
+            var inputConsumers = new IInputConsumer[]
+            {
+                new SearchConsumer(),
+                localFinder
+            };
+
+            var optionConsumers = new[]
+            {
+                new OptionsConsumer(main.SetWords)
+            };
+
+            var inputProseser = new InputProseser(inputConsumers, optionConsumers);
+            var splitter = new CreateWordInPut(inputProseser, wordsplitter, sentenssplitter);
+
+            main.MatchCalculator = matchCalculator;
+
+            main.ViewModel = new ViewModel();
+            main.Reposetry = reposetry;
+
+            return splitter;
         }
 
         private static AppBuilder BuildAvaloniaApp()
