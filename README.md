@@ -3,8 +3,8 @@ I have dyslexia and sins there is not rely good tool out there. to help me wit s
 
 the base rules will be
 
-1. it should work for all programs
-1. it should  work with all languages and multiple langs mixed
+1. it should work for all programs :thumbsup:
+1. it should  work with all languages and multiple langs mixed :thumbsup:
 1. it should  be fast and learn new words
 1. it should  be close to the cursor in all times
 1. it should  be able to translate words/sentences
