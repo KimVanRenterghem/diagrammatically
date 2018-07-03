@@ -36,7 +36,7 @@ namespace diagrammatically.AvaloniaUi
                     }
                 });
 
-                api.CreateKeyboardHook(key => inputGenerator.Genrrate(new[] { "nl"})(key));
+                api.CreateKeyboardHook(key => inputGenerator.Genrrate(new[] { "nl", "en"})(key));
 
                 BuildAvaloniaApp()
                     .Start<MainWindow>();
@@ -62,7 +62,7 @@ namespace diagrammatically.AvaloniaUi
 
             var inputConsumers = new IInputConsumer[]
             {
-                new SearchConsumer(),
+               // new SearchConsumer(),
                 localFinder
             };
 

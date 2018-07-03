@@ -20,8 +20,11 @@ namespace diagrammatically.Domein.InputProsesers
         public void Loockup(string filter, string source, IEnumerable<string> langs)
         {
             if (string.IsNullOrEmpty(filter))
+            {
+                BroadCast(new WordMatch[0]);
                 return;
-
+            }
+            
             _inputConsumers
                 .Select(async consumer
                     => (await consumer.ConsumeAsync(filter, langs))
