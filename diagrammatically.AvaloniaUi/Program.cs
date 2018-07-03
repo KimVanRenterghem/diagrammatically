@@ -47,7 +47,7 @@ namespace diagrammatically.AvaloniaUi
         private static IInputProseser BuildDependencys(MainWindow main)
         {
             var wordSpliters = " _\n\t".ToCharArray();
-            var sentensSpliters = ".,!?:;()&|".ToCharArray();
+            var sentensSpliters = "<>\\/+=-*.,!?:;()&|".ToCharArray();
             var uppers = "ABCDEFGHIJKLMNOPQRSTUVWYYZ".ToCharArray();
 
             var wordsplitter = new WordsSplitter(wordSpliters, uppers);
