@@ -47,11 +47,16 @@ namespace diagrammatically.AvaloniaUi
                 }
             }
 
+            Directory.CreateDirectory("Data/Words/");
+
             Directory.GetFiles(Directory.GetCurrentDirectory(), "words_*.txt")
                 .Select(RealLetterWords)
                 .ToList()
                 .Pipe(Task.WhenAll)
                 .Wait();
+
+            Directory.GetFiles(Directory.GetCurrentDirectory(), "words_*.txt")
+                .ForEach(File.Delete);
         }
 
         private async Task RealLetterWords(string filepath)
@@ -67,7 +72,6 @@ namespace diagrammatically.AvaloniaUi
                     .First()
                     .Split('_')
                     .Last();
-                lang = "nl";
 
                 using (var reader = new StreamReader(filepath))
                 {

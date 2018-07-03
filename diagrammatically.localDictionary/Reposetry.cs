@@ -23,7 +23,7 @@ namespace diagrammatically.localDictionary
                 .First()
                 .Pipe(_matchCalculator.Replace);
 
-            return $"Filename=words_{first}_ {word.Lang}.db;Flush=True";
+            return $"Filename=Data/Words/words_{first}_ {word.Lang}.db;Flush=True";
         }
 
         public void Add(Word word)
