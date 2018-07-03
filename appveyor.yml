@@ -27,7 +27,7 @@ after_build:
 artifacts:
  - path: '\diagrammatically.AvaloniaUi\bin\Debug\netcoreapp2.0\publish\*'
    name: diagrammatically.AvaloniaUi
-    type: zip
+   type: zip
 clone_depth: 1
 test_script:
   # restore packages for our unit tests
