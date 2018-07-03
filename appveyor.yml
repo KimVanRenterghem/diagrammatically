@@ -25,7 +25,7 @@ build_script:
 after_build:
   - cmd: 7z a diagrammatically.AvaloniaUi1.0.{build}.zip .\diagrammatically.AvaloniaUi\bin\Debug\netcoreapp2.0\publish\
 artifacts:
- - path: '\diagrammatically.AvaloniaUi\bin\Debug\netcoreapp2.0\publish\diagrammatically.AvaloniaUi*.zip'
+ - path: .\diagrammatically.AvaloniaUi\bin\Debug\netcoreapp2.0\publish\diagrammatically.AvaloniaUi*.zip
    name: diagrammatically.AvaloniaUi
    type: zip
 clone_depth: 1
