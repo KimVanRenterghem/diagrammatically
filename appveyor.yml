@@ -23,7 +23,7 @@ before_build:
 build_script:
   - cmd: dotnet publish .\diagrammatically.AvaloniaUi\diagrammatically.AvaloniaUi.csproj
 after_build:
-  - cmd: zip -r diagrammatically.AvaloniaUi1.0.{build}.zip \diagrammatically.AvaloniaUi\bin\Debug\netcoreapp2.0\publish\*
+  - cmd: 7z a diagrammatically.AvaloniaUi1.0.{build}.zip \diagrammatically.AvaloniaUi\bin\Debug\netcoreapp2.0\publish\*
 artifacts:
  - path: '\diagrammatically.AvaloniaUi\bin\Debug\netcoreapp2.0\publish\diagrammatically.AvaloniaUi1.0.{build}.zip'
    name: diagrammatically.AvaloniaUi
