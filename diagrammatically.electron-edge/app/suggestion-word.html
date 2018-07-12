@@ -1,0 +1,64 @@
+<template id="template-suggestion-word">
+    <style>
+        .suggestion-word {
+            background: #fDfdfd;
+            color: #555555;
+            align-self: stretch;
+            height: 25px;
+            padding: 10px;
+            margin: 1px 3px 0 3px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            border-radius: 2px;
+            transition: all ease-out 75ms;
+            animation: fadein 500ms;
+            z-index: 3;
+        }
+
+        @keyframes fadein {
+            from {
+                opacity: 0;
+                height: 0;
+            }
+            to {
+                opacity: 1;
+                height: 25px;
+            }
+        }
+
+        .suggestion-word.actif,
+        .suggestion-word:hover {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            height: 30px;
+            margin: 1px 5px 2px 1px;
+        }
+    </style>
+    <div class="suggestion-word"></div>
+</template>
+<script>
+    (function (owner) {
+        class SuggestionWord extends HTMLElement {
+            constructor() {
+                super() 
+                const template = owner.querySelector('#template-suggestion-word').content;
+                const instance = template.cloneNode(true);
+
+                let shadowRoot = this.attachShadow({ mode: 'open' });
+                shadowRoot.appendChild(instance);
+
+                this.word = shadowRoot.querySelector(".suggestion-word")
+            }
+            connectedCallback() {
+            }
+            static get observedAttributes() {
+                return ['text'];
+            }
+            attributeChangedCallback(attrName, oldVal, newVal) {
+                if (this.word && attrName == 'text' && newVal) {
+                    this.word.innerHTML = newVal
+                }
+            }
+        }
+
+        customElements.define('suggestion-word', SuggestionWord)
+    })(document.currentScript.ownerDocument)
+</script>

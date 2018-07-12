@@ -286,3 +286,8 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+# electron
+.idea/workspace.xml
+node_modules/
+package-lock.json
