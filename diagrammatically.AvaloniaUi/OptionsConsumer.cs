@@ -17,7 +17,7 @@ namespace diagrammatically.AvaloniaUi
 
         }
 
-        public void Consume(IEnumerable<WordMatch> wordMatches)
+        public void Consume(string filter, string source, IEnumerable<WordMatch> wordMatches)
             => wordMatches
                 .OrderByDescending(wordMatch => wordMatch.Match)
                 .ThenBy(wordMatch => wordMatch.Word.Length)

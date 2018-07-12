@@ -66,9 +66,13 @@ namespace diagrammatically.AvaloniaUi
                 localFinder
             };
 
+            var optionconsumer = new OptionsConsumer(main.SetWords);
+
+            var optionZiper = new OptionZipConsumer(optionconsumer);
+
             var optionConsumers = new[]
             {
-                new OptionsConsumer(main.SetWords)
+                optionZiper
             };
 
             var inputProseser = new InputProseser(inputConsumers, optionConsumers);

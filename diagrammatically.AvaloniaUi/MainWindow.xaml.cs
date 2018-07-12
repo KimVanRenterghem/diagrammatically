@@ -7,10 +7,8 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using diagrammatically.Domein;
-using diagrammatically.Domein.InputProsesers;
 using diagrammatically.Domein.Interfaces;
 using diagrammatically.localDictionary;
-using diagrammatically.oxforddictionaries;
 
 namespace diagrammatically.AvaloniaUi
 {
@@ -67,6 +65,7 @@ namespace diagrammatically.AvaloniaUi
                 new DixionaryLoader(Reposetry, MatchCalculator).Load(@"C:\git\Dictionaries\Dutch.dic", "nl");
             });
         }
+
         private void BttLoadEnClick(object sender, RoutedEventArgs e)
         {
             Task.Run(() =>
@@ -80,7 +79,7 @@ namespace diagrammatically.AvaloniaUi
 
     public class ViewModel : INotifyPropertyChanged
     {
-        private string _input;
+        private string _input = null;
 
         public ViewModel()
         {

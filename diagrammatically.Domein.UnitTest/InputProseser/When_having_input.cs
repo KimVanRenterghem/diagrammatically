@@ -9,7 +9,7 @@ namespace diagrammatically.Domein.UnitTest.InputProseser
 {
     public class When_having_input : Given_When_Then
     {
-        private InputProsesers.InputProseser _sut;        
+        private InputProsesers.InputProseser _sut;
         private readonly List<IEnumerable<WordMatch>> _matshes = new List<IEnumerable<WordMatch>>();
 
         protected override void Given()
@@ -26,8 +26,8 @@ namespace diagrammatically.Domein.UnitTest.InputProseser
 
             var optionconsumerMock = new Mock<IOptionConsumer>();
             optionconsumerMock
-                .Setup(optionconsumer => optionconsumer.Consume(It.IsAny<IEnumerable<WordMatch>>()))
-                .Callback<IEnumerable<WordMatch>>(matches => _matshes.Add(matches));
+                .Setup(optionconsumer => optionconsumer.Consume("test", "unittest", It.IsAny<IEnumerable<WordMatch>>()))
+                .Callback<string, string, IEnumerable<WordMatch>>((filter,source,matches) => _matshes.Add(matches));
 
             _sut = new InputProsesers.InputProseser
                 (
@@ -38,7 +38,7 @@ namespace diagrammatically.Domein.UnitTest.InputProseser
 
         protected override void When()
         {
-            _sut.Loockup("test", "unittest",new[] { "nl" });
+            _sut.Loockup("test", "unittest", new[] { "nl" });
         }
 
         [Fact]

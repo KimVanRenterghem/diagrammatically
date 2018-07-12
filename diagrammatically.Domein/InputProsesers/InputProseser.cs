@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CSharp.Pipe;
@@ -19,22 +20,27 @@ namespace diagrammatically.Domein.InputProsesers
 
         public void Loockup(string filter, string source, IEnumerable<string> langs)
         {
+            Action<IEnumerable<WordMatch>> BroadCastWithFilterAndSource(string f, string s)
+            {
+                return matches => BroadCast(f, s, matches);
+            }
+
             if (string.IsNullOrEmpty(filter))
             {
-                BroadCast(new WordMatch[0]);
+                BroadCastWithFilterAndSource(filter, source)(new WordMatch[0]);
                 return;
             }
             
             _inputConsumers
                 .Select(async consumer
                     => (await consumer.ConsumeAsync(filter, langs))
-                        .Pipe(BroadCast))
+                        .Pipe(BroadCastWithFilterAndSource(filter, source)))
                 .ToArray()
                 .Pipe(Task.WhenAll);
         }
 
-        private void BroadCast(IEnumerable<WordMatch> matches)
+        private void BroadCast(string filter, string source, IEnumerable<WordMatch> matches)
             => _optionConsumers
-                .ForEach(optionConsumer => optionConsumer.Consume(matches));
+                .ForEach(optionConsumer => optionConsumer.Consume(filter, source, matches));
     }
 }

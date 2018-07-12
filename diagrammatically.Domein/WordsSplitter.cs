@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CSharp.Pipe;
 using diagrammatically.Domein.Interfaces;
 
 namespace diagrammatically.Domein
@@ -67,7 +66,7 @@ namespace diagrammatically.Domein
         private Func<string, string> TrimSplitters(char[] invisebel)
         => word
             => word.IndexOfAny(invisebel) >= 0
-                ? invisebel.Aggregate(word, (w, r) => w.Replace(r.ToString(), ""))
+                ? invisebel.Aggregate(word, (w, r) =>  w.Replace(r.ToString(), ""))
                 : word;
     }
 }

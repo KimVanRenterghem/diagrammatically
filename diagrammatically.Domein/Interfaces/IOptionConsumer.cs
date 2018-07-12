@@ -4,6 +4,6 @@ namespace diagrammatically.Domein.Interfaces
 {
     public interface IOptionConsumer
     {
-        void Consume(IEnumerable<WordMatch> wordMatches);
+        void Consume(string filter, string source, IEnumerable<WordMatch> matches);
     }
 }
