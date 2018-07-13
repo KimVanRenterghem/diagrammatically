@@ -30,6 +30,14 @@
             }
             attributeChangedCallback(attrName, oldVal, newVal) {
                 if (this.wordList && attrName == 'words' && newVal) {
+                    var rangeObj = new Range();
+
+    // Select all of theParent's children
+                    rangeObj.selectNodeContents(this.wordList);
+
+                    // Delete everything that is selected
+                    rangeObj.deleteContents();
+                    
                     this.getAttribute('words')
                     .split('|')
                     .map(word => {
