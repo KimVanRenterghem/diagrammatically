@@ -1,20 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CSharp.Pipe;
-using diagrammatically.Domein.Interfaces;
 
-namespace diagrammatically.Domein
+namespace diagrammatically.Domein.WordMatchConsumer
 {
-    public class OptionZipConsumer : IOptionConsumer
+    public class WordMatchZipConsumerConsumer : IWordMatchConsumerConsumer
     {
-        private readonly IOptionConsumer _optionConsumer;
+        private readonly IWordMatchConsumerConsumer _wordMatchConsumerConsumer;
         private string _filter;
         private string _source;
         private IEnumerable<WordMatch> _wordMatches;
 
-        public OptionZipConsumer(IOptionConsumer optionConsumer)
+        public WordMatchZipConsumerConsumer(IWordMatchConsumerConsumer wordMatchConsumerConsumer)
         {
-            _optionConsumer = optionConsumer;
+            _wordMatchConsumerConsumer = wordMatchConsumerConsumer;
         }
         public void Consume(string filter, string source, IEnumerable<WordMatch> wordMatches)
         {
@@ -32,7 +31,7 @@ namespace diagrammatically.Domein
                 _wordMatches = wordMatches;
             }
 
-            _optionConsumer.Consume(filter, source, _wordMatches);
+            _wordMatchConsumerConsumer.Consume(filter, source, _wordMatches);
         }
     }
 }

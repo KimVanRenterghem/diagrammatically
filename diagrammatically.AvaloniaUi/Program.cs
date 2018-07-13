@@ -4,6 +4,7 @@ using Avalonia;
 using diagrammatically.Domein;
 using diagrammatically.Domein.InputProsesers;
 using diagrammatically.Domein.Interfaces;
+using diagrammatically.Domein.WordMatchConsumer;
 using diagrammatically.localDictionary;
 using diagrammatically.oxforddictionaries;
 using Keystroke.API;
@@ -66,9 +67,9 @@ namespace diagrammatically.AvaloniaUi
                 localFinder
             };
 
-            var optionconsumer = new OptionsConsumer(main.SetWords);
+            var optionconsumer = new WordMatchesConsumerConsumer(main.SetWords);
 
-            var optionZiper = new OptionZipConsumer(optionconsumer);
+            var optionZiper = new WordMatchZipConsumerConsumer(optionconsumer);
 
             var optionConsumers = new[]
             {

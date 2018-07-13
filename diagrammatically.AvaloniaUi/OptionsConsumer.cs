@@ -4,14 +4,15 @@ using System.Linq;
 using CSharp.Pipe;
 using diagrammatically.Domein;
 using diagrammatically.Domein.Interfaces;
+using diagrammatically.Domein.WordMatchConsumer;
 
 namespace diagrammatically.AvaloniaUi
 {
-    public class OptionsConsumer : IOptionConsumer
+    public class WordMatchesConsumerConsumer : IWordMatchConsumerConsumer
     {
         private readonly Action<IEnumerable<Option>> _setOptions;
 
-        public OptionsConsumer(Action<IEnumerable<Option>> setOptions)
+        public WordMatchesConsumerConsumer(Action<IEnumerable<Option>> setOptions)
         {
             _setOptions = setOptions;
 
@@ -19,9 +20,6 @@ namespace diagrammatically.AvaloniaUi
 
         public void Consume(string filter, string source, IEnumerable<WordMatch> wordMatches)
             => wordMatches
-                .OrderByDescending(wordMatch => wordMatch.Match)
-                .ThenBy(wordMatch => wordMatch.Word.Length)
-                .Take(10)
                 .Select(wordMatch
                     => new Option
                     {

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace diagrammatically.Domein.Interfaces
+namespace diagrammatically.Domein.WordMatchConsumer
 {
-    public interface IOptionConsumer
+    public interface IWordMatchConsumerConsumer
     {
         void Consume(string filter, string source, IEnumerable<WordMatch> matches);
     }

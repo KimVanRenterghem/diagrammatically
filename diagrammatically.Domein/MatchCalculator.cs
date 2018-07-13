@@ -6,7 +6,7 @@ namespace diagrammatically.Domein
 {
     public class MatchCalculator : IMatchCalculator
     {
-        private Dictionary<char, char> replacers = new Dictionary<char, char>
+        private readonly Dictionary<char, char> replacers = new Dictionary<char, char>
         {
             {'á', 'a'},
             {'à', 'a'},

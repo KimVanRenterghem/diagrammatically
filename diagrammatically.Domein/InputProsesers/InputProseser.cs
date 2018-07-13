@@ -4,15 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using CSharp.Pipe;
 using diagrammatically.Domein.Interfaces;
+using diagrammatically.Domein.WordMatchConsumer;
 
 namespace diagrammatically.Domein.InputProsesers
 {
     public class InputProseser : IInputProseser
     {
         private readonly IEnumerable<IInputConsumer> _inputConsumers;
-        private readonly IEnumerable<IOptionConsumer> _optionConsumers;
+        private readonly IEnumerable<IWordMatchConsumerConsumer> _optionConsumers;
 
-        public InputProseser(IEnumerable<IInputConsumer> inputConsumers, IEnumerable<IOptionConsumer> optionConsumers)
+        public InputProseser(IEnumerable<IInputConsumer> inputConsumers, IEnumerable<IWordMatchConsumerConsumer> optionConsumers)
         {
             _inputConsumers = inputConsumers;
             _optionConsumers = optionConsumers;
