@@ -1,0 +1,40 @@
+<template id="template-typing-word">
+    <style>
+        .typing-word {
+            color: #5a7760;
+            align-self: stretch;
+            margin: -8px -8px 5px -8px;
+            padding: 10px 8px 10px 8px;
+            box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1);
+            background: #b0ecbc;  
+            font-weight: bold;
+        }
+    </style>
+    <div class="typing-word"></div>
+</template>
+<script>
+    (function (owner) {
+        class TypingWord extends HTMLElement {
+            constructor() {
+                super()
+                const template = owner.querySelector('#template-typing-word')
+                const instance = template.content.cloneNode(true)
+
+                let shadowRoot = this.attachShadow({ mode: 'open' })
+                shadowRoot.appendChild(instance)
+                this.typengWord = shadowRoot.querySelector(".typing-word")
+            }
+            connectedCallback() {
+            }
+            static get observedAttributes() {
+                return ['text'];
+            }
+            attributeChangedCallback(attrName, oldVal, newVal) {
+                if (this.typengWord && attrName == 'text' && newVal) {
+                    this.typengWord.innerHTML = newVal
+                }
+            }
+        }
+        customElements.define('typing-word', TypingWord)
+    })(document.currentScript.ownerDocument)
+</script>

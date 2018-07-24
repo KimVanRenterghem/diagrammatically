@@ -19,12 +19,14 @@ namespace diagrammatically.Domein.InputProsesers
 
         public void Loockup(string filter, string source, IEnumerable<string> langs)
         {
+            var f = filter;
             var sentenses = _sentensSplitter.Split(filter);
             filter = sentenses.Last();
 
-            var words = _wordsSplitter.Split(filter);
+            filter = _wordsSplitter
+                .Split(filter)
+                .Last();
 
-            filter = words.Last();
             _inputProseser.Loockup(filter, source, langs);
         }
     }

@@ -25,7 +25,7 @@ namespace diagrammatically.Domein.UnitTest.InputProseser
                 .Setup(inputconsumer => inputconsumer.ConsumeAsync("test", new[] { "nl" }))
                 .Returns(Task.FromResult<IEnumerable<WordMatch>>(new[] { new WordMatch("test", "testkim2", 10, 0, "") }));
 
-            var optionconsumerMock = new Mock<IWordMatchConsumerConsumer>();
+            var optionconsumerMock = new Mock<IWordMatchConsumer>();
             optionconsumerMock
                 .Setup(optionconsumer => optionconsumer.Consume("test", "unittest", It.IsAny<IEnumerable<WordMatch>>()))
                 .Callback<string, string, IEnumerable<WordMatch>>((filter,source,matches) => _matshes.Add(matches));

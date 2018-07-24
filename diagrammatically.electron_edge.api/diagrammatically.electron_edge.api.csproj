@@ -7,18 +7,22 @@
 
   </PropertyGroup>
 <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  <PackageReference Include="Avalonia" Version="0.6.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
 	<PackageReference Include="Microsoft.CodeAnalysis" Version="2.3.2" />
+  <PackageReference Include="KeystrokeAPI" Version="1.0.6.5" />
     <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
     <PackageReference Include="Microsoft.DotNet.InternalAbstractions" Version="1.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.0.0" />
   </ItemGroup>
 <ItemGroup>
+  <ProjectReference Include="..\diagrammatically.AvaloniaUi\diagrammatically.AvaloniaUi.csproj" />
   <ProjectReference Include="..\diagrammatically.Domein\diagrammatically.Domein.csproj" />
+  <ProjectReference Include="..\diagrammatically.localDictionary\diagrammatically.localDictionary.csproj" />
 </ItemGroup>
    <ItemGroup>
     <Reference Include="EdgeJs">
-      <HintPath>..\diagrammatically.electron-edge\node_modules\electron-edge-js\lib\bootstrap\bin\Release\netcoreapp1.1\EdgeJs.dll</HintPath>
+      <HintPath>..\diagrammatically.electron_edge\node_modules\electron-edge-js\lib\bootstrap\bin\Release\netcoreapp1.1\EdgeJs.dll</HintPath>
       <Private>true</Private>
     </Reference>
   </ItemGroup>

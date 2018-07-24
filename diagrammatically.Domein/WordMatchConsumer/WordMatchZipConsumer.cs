@@ -4,16 +4,16 @@ using CSharp.Pipe;
 
 namespace diagrammatically.Domein.WordMatchConsumer
 {
-    public class WordMatchZipConsumerConsumer : IWordMatchConsumerConsumer
+    public class WordMatchZipConsumer : IWordMatchConsumer
     {
-        private readonly IWordMatchConsumerConsumer _wordMatchConsumerConsumer;
+        private readonly IWordMatchConsumer _wordMatchConsumer;
         private string _filter;
         private string _source;
         private IEnumerable<WordMatch> _wordMatches;
 
-        public WordMatchZipConsumerConsumer(IWordMatchConsumerConsumer wordMatchConsumerConsumer)
+        public WordMatchZipConsumer(IWordMatchConsumer wordMatchConsumer)
         {
-            _wordMatchConsumerConsumer = wordMatchConsumerConsumer;
+            _wordMatchConsumer = wordMatchConsumer;
         }
         public void Consume(string filter, string source, IEnumerable<WordMatch> wordMatches)
         {
@@ -31,7 +31,7 @@ namespace diagrammatically.Domein.WordMatchConsumer
                 _wordMatches = wordMatches;
             }
 
-            _wordMatchConsumerConsumer.Consume(filter, source, _wordMatches);
+            _wordMatchConsumer.Consume(filter, source, _wordMatches);
         }
     }
 }

@@ -11,9 +11,9 @@ namespace diagrammatically.Domein.InputProsesers
     public class InputProseser : IInputProseser
     {
         private readonly IEnumerable<IInputConsumer> _inputConsumers;
-        private readonly IEnumerable<IWordMatchConsumerConsumer> _optionConsumers;
+        private readonly IEnumerable<IWordMatchConsumer> _optionConsumers;
 
-        public InputProseser(IEnumerable<IInputConsumer> inputConsumers, IEnumerable<IWordMatchConsumerConsumer> optionConsumers)
+        public InputProseser(IEnumerable<IInputConsumer> inputConsumers, IEnumerable<IWordMatchConsumer> optionConsumers)
         {
             _inputConsumers = inputConsumers;
             _optionConsumers = optionConsumers;
@@ -31,7 +31,7 @@ namespace diagrammatically.Domein.InputProsesers
                 BroadCastWithFilterAndSource(filter, source)(new WordMatch[0]);
                 return;
             }
-            
+
             _inputConsumers
                 .Select(async consumer
                     => (await consumer.ConsumeAsync(filter, langs))

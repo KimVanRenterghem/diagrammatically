@@ -1,14 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Avalonia;
 using diagrammatically.Domein;
 using diagrammatically.Domein.InputProsesers;
 using diagrammatically.Domein.Interfaces;
 using diagrammatically.Domein.WordMatchConsumer;
 using diagrammatically.localDictionary;
-using diagrammatically.oxforddictionaries;
 using Keystroke.API;
-using Keystroke.API.CallbackObjects;
 
 namespace diagrammatically.AvaloniaUi
 {
@@ -67,9 +64,9 @@ namespace diagrammatically.AvaloniaUi
                 localFinder
             };
 
-            var optionconsumer = new WordMatchesConsumerConsumer(main.SetWords);
-
-            var optionZiper = new WordMatchZipConsumerConsumer(optionconsumer);
+            var optionconsumer = new WordMatchesConsumer(main.SetWords);
+            var proitizer = new WordMatchPriotizeConsumer(new []{ optionconsumer}, 8);
+            var optionZiper = new WordMatchZipConsumer(proitizer);
 
             var optionConsumers = new[]
             {
@@ -83,6 +80,7 @@ namespace diagrammatically.AvaloniaUi
 
             main.ViewModel = new ViewModel();
             main.Reposetry = reposetry;
+
 
             return splitter;
         }

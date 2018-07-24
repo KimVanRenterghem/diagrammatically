@@ -1,0 +1,53 @@
+<link rel="import" href="suggestion-word.html">
+<template id="template-suggestion-list">
+    <style>
+        .suggestion-list {
+            display: flex;
+            flex-direction: column;
+            justify-content: top;
+        }
+    </style>
+    <div class="suggestion-list"></div>
+</template>
+<script>
+    (function (owner) {
+        class SuggestionList extends HTMLElement {
+            constructor() {
+                super()
+                const template = owner.querySelector('#template-suggestion-list').content
+                const instance = template.cloneNode(true)
+
+                let shadowRoot = this.attachShadow({ mode: 'open' })
+                shadowRoot.appendChild(instance)
+
+                this.wordList = shadowRoot.querySelector(".suggestion-list")
+            }
+            connectedCallback() {               
+            }
+            static get observedAttributes() {
+                return ['words'];
+            }
+            attributeChangedCallback(attrName, oldVal, newVal) {
+                if (this.wordList && attrName == 'words' && newVal != oldVal) {
+                    const rangeObj = new Range();
+                    rangeObj.selectNodeContents(this.wordList);
+
+                    rangeObj.deleteContents();
+                    if(newVal){
+                        this.getAttribute('words')
+                        .split('|')
+                        .map(word => {
+                            const worditem = document.createElement('suggestion-word')
+                            worditem.setAttribute("text", word)
+                            return worditem
+                        })
+                        .forEach(element => {
+                            this.wordList.appendChild(element)
+                        })
+                    }
+                }
+            }
+        }
+        customElements.define('suggestion-list', SuggestionList)
+    })(document.currentScript.ownerDocument)
+</script>

@@ -2,7 +2,7 @@
 
 namespace diagrammatically.Domein.WordMatchConsumer
 {
-    public interface IWordMatchConsumerConsumer
+    public interface IWordMatchConsumer
     {
         void Consume(string filter, string source, IEnumerable<WordMatch> matches);
     }

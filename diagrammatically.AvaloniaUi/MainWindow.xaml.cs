@@ -37,10 +37,11 @@ namespace diagrammatically.AvaloniaUi
         public MainWindow()
         {
             InitializeComponent();
+
+            base.Hide();
             Singel = this;
         }
 
-        
 
         public void SetWords(IEnumerable<Option> options)
         {

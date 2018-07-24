@@ -12,10 +12,12 @@ namespace diagrammatically.localDictionary
     public class Reposetry
     {
         private readonly IMatchCalculator _matchCalculator;
+        private readonly string _rootpath;
 
-        public Reposetry(IMatchCalculator matchCalculator)
+        public Reposetry(IMatchCalculator matchCalculator, string rootpath = "")
         {
             _matchCalculator = matchCalculator;
+            _rootpath = rootpath;
         }
 
         private string Connextion(WordKey word)
@@ -24,7 +26,7 @@ namespace diagrammatically.localDictionary
                 .First()
                 .Pipe(_matchCalculator.Replace);
 
-            return $"Filename=Data/Words/words_{first}_ {word.Lang}.db;Flush=True";
+            return $"Filename={_rootpath}Data/Words/words_{first}_ {word.Lang}.db;Flush=True";
         }
 
         public void Add(Word word)

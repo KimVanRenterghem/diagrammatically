@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CSharp.Pipe;
 
 namespace diagrammatically.Domein.WordMatchConsumer
 {
-    public class WordMatchPriotizeConsumer : IWordMatchConsumerConsumer
+    public class WordMatchPriotizeConsumer : IWordMatchConsumer
     {
-        private readonly IWordMatchConsumerConsumer _optionconsumer;
+        private readonly IEnumerable<IWordMatchConsumer> _optionconsumer;
+        private readonly int _lenth;
 
-        public WordMatchPriotizeConsumer(IWordMatchConsumerConsumer optionconsumer)
+        public WordMatchPriotizeConsumer(IEnumerable<IWordMatchConsumer> optionconsumer, int lenth)
         {
             _optionconsumer = optionconsumer;
+            _lenth = lenth;
         }
 
         public void Consume(string filter, string source, IEnumerable<WordMatch> matches)
@@ -18,9 +19,11 @@ namespace diagrammatically.Domein.WordMatchConsumer
             matches = matches
                 .OrderByDescending(wordMatch => wordMatch.Match)
                 .ThenBy(wordMatch => wordMatch.Word.Length)
-                .Take(10)
+                .Take(_lenth)
                 .ToArray();
-            _optionconsumer.Consume(filter, source, matches);
+
+            _optionconsumer
+                .ForEach(op => op.Consume(filter, source, matches));
         }
     }
 }

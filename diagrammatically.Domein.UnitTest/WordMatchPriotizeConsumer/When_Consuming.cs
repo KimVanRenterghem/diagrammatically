@@ -14,12 +14,12 @@ namespace diagrammatically.Domein.UnitTest.WordMatchPriotizeConsumer
 
         protected override void Given()
         {
-            var optionconsumerMock = new Mock<IWordMatchConsumerConsumer>();
+            var optionconsumerMock = new Mock<IWordMatchConsumer>();
             optionconsumerMock
                 .Setup(optionconsumer => optionconsumer.Consume("word", "vs code", It.IsAny<IEnumerable<WordMatch>>()))
                 .Callback<string, string, IEnumerable<WordMatch>>((filter, source, matches) => _matshes.Add(matches));
 
-            _sub = new WordMatchConsumer.WordMatchPriotizeConsumer(optionconsumerMock.Object);
+            _sub = new WordMatchConsumer.WordMatchPriotizeConsumer(new[] { optionconsumerMock.Object }, 8);
         }
 
         protected override void When()
