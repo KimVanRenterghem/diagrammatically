@@ -10,8 +10,21 @@ namespace diagrammatically.electron_edge.api
 {
     public class OptionApi
     {
+        private readonly IDependencysBuilder _dependencysBuilder;
+        private readonly KeystrokeAPI _keystrokeApi;
         public static IEnumerable<WordMatch> _LastMatches = new List<WordMatch>();
         private CancellationToken _cancel;
+
+        public OptionApi() : this(new DependencysBuilder(), new KeystrokeAPI())
+        {
+            
+        }
+
+        public OptionApi(IDependencysBuilder dependencysBuilder, KeystrokeAPI keystrokeApi)
+        {
+            _dependencysBuilder = dependencysBuilder;
+            _keystrokeApi = keystrokeApi;
+        }
 
         public async Task<object> GetCurrentMatches(dynamic input)
             => _LastMatches;
@@ -24,29 +37,26 @@ namespace diagrammatically.electron_edge.api
             return Task.FromResult<object>(true);
         }
 
-        private static void Startapplication()
+        private void Startapplication()
         {
-            var api = new KeystrokeAPI();
-            
-            var builder = new DependencysBuilder();
-
             Task.Run(() =>
             {
-                while (builder.InputGenerator == null)
+                var delai = Task.Delay(30);
+                while (_dependencysBuilder.InputGenerator == null)
                 {
                     if (MainWindow.Singel != null)
                     {
-                        builder.Build(MainWindow.Singel);
+                        _dependencysBuilder.Build(MainWindow.Singel);
                     }
                     else
                     {
-                        Task.Delay(30).Wait();
+                        delai.Wait(_cancel);
                     }
                 }
             });
 
-            api.CreateKeyboardHook(key 
-                => builder
+            _keystrokeApi.CreateKeyboardHook(key 
+                => _dependencysBuilder
                     .InputGenerator
                     .Genrrate(new[] { "nl", "en" })(key)
                 );

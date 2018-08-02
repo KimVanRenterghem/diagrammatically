@@ -7,7 +7,7 @@ using diagrammatically.localDictionary;
 
 namespace diagrammatically.electron_edge.api
 {
-    public class DependencysBuilder
+    public class DependencysBuilder : IDependencysBuilder
     {
         public InputGenerator InputGenerator { get; private set; }
 
