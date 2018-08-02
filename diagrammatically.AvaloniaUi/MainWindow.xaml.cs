@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
@@ -38,8 +39,12 @@ namespace diagrammatically.AvaloniaUi
         {
             InitializeComponent();
 
-            base.Hide();
             Singel = this;
+            
+            this.Activated += (sender, args) =>
+            {
+                Hide();
+            };
         }
 
 
@@ -61,10 +66,11 @@ namespace diagrammatically.AvaloniaUi
 
         private void BttLoadNlClick(object sender, RoutedEventArgs e)
         {
-            Task.Run(() =>
-            {
-                new DixionaryLoader(Reposetry, MatchCalculator).Load(@"C:\git\Dictionaries\Dutch.dic", "nl");
-            });
+            Hide();
+            //Task.Run(() =>
+            //{
+            //    new DixionaryLoader(Reposetry, MatchCalculator).Load(@"C:\git\Dictionaries\Dutch.dic", "nl");
+            //});
         }
 
         private void BttLoadEnClick(object sender, RoutedEventArgs e)
