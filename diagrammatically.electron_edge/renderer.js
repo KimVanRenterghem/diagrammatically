@@ -43,8 +43,7 @@ const loadMatches = function () {
         })
     }, 100)
 }
-document.getElementById("typing-word").setAttribute('text', 'typing')
-document.getElementById("suggestion-list").setAttribute('words', 'typ|kim|test|typ|kim|test')
+
 window.onload = function () {
     startLogger('', function (error, result) {
         if (error) throw error;
