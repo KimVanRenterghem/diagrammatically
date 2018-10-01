@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Avalonia;
 using diagrammatically.AvaloniaUi;
 using diagrammatically.Domein;
+using diagrammatically.win32;
 using Keystroke.API;
 
 namespace diagrammatically.electron_edge.api
@@ -32,8 +33,19 @@ namespace diagrammatically.electron_edge.api
         public async Task<object> StartLogger(dynamic input)
         {
             _cancel = new CancellationTokenSource().Token;
-            Task.Run(() => Startapplication());
+            Task.Run(() =>
+            {
+                Startapplication();
+            });
+            return Task.FromResult<object>(true);
+        }
 
+        public async Task<object> SelectWord(dynamic input)
+        {
+            var word = input.selection.ToString();
+            var typedWord = input.typed.ToString();
+            new OutputWriter()
+                .Write(word, typedWord);
             return Task.FromResult<object>(true);
         }
 

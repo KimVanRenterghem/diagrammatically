@@ -291,3 +291,5 @@ __pycache__/
 .idea/workspace.xml
 node_modules/
 package-lock.json
+/diagrammatically.win32/lib
+/diagrammatically.win32/Properties

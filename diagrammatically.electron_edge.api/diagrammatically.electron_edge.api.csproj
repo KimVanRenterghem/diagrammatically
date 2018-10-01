@@ -19,6 +19,7 @@
   <ProjectReference Include="..\diagrammatically.AvaloniaUi\diagrammatically.AvaloniaUi.csproj" />
   <ProjectReference Include="..\diagrammatically.Domein\diagrammatically.Domein.csproj" />
   <ProjectReference Include="..\diagrammatically.localDictionary\diagrammatically.localDictionary.csproj" />
+  <ProjectReference Include="..\diagrammatically.win32\diagrammatically.win32.csproj" />
 </ItemGroup>
    <ItemGroup>
     <Reference Include="EdgeJs">

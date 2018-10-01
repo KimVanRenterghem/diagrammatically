@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "diagrammatically.AvaloniaUi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "diagrammatically.electron_edge.api", "diagrammatically.electron_edge.api\diagrammatically.electron_edge.api.csproj", "{3054BE1F-EADB-435F-BDA2-9C3BA85BC7E8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "diagrammatically.win32", "diagrammatically.win32\diagrammatically.win32.csproj", "{87B04335-26EC-4FEA-B6AE-F0ECE128367F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,14 @@ Global
 		{3054BE1F-EADB-435F-BDA2-9C3BA85BC7E8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3054BE1F-EADB-435F-BDA2-9C3BA85BC7E8}.Release|x86.ActiveCfg = Release|Any CPU
 		{3054BE1F-EADB-435F-BDA2-9C3BA85BC7E8}.Release|x86.Build.0 = Release|Any CPU
+		{87B04335-26EC-4FEA-B6AE-F0ECE128367F}.Debug|Any CPU.ActiveCfg = Release 3.5|Any CPU
+		{87B04335-26EC-4FEA-B6AE-F0ECE128367F}.Debug|Any CPU.Build.0 = Release 3.5|Any CPU
+		{87B04335-26EC-4FEA-B6AE-F0ECE128367F}.Debug|x86.ActiveCfg = Release 3.5|Any CPU
+		{87B04335-26EC-4FEA-B6AE-F0ECE128367F}.Debug|x86.Build.0 = Release 3.5|Any CPU
+		{87B04335-26EC-4FEA-B6AE-F0ECE128367F}.Release|Any CPU.ActiveCfg = Release 3.5|Any CPU
+		{87B04335-26EC-4FEA-B6AE-F0ECE128367F}.Release|Any CPU.Build.0 = Release 3.5|Any CPU
+		{87B04335-26EC-4FEA-B6AE-F0ECE128367F}.Release|x86.ActiveCfg = Release 3.5|Any CPU
+		{87B04335-26EC-4FEA-B6AE-F0ECE128367F}.Release|x86.Build.0 = Release 3.5|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
