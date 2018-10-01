@@ -1,10 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using diagrammatically.Domein;
@@ -56,29 +53,6 @@ namespace diagrammatically.AvaloniaUi
         private void InitializeComponent()
         {
             AvaloniaXamlLoaderPortableXaml.Load(this);
-
-            _bttLoadNl = this.Find<Button>("BttLoadNl");
-            _bttLoadNl.Click += BttLoadNlClick;
-
-            _bttLoadEn = this.Find<Button>("BttLoadEn");
-            _bttLoadEn.Click += BttLoadEnClick;
-        }
-
-        private void BttLoadNlClick(object sender, RoutedEventArgs e)
-        {
-            Hide();
-            //Task.Run(() =>
-            //{
-            //    new DixionaryLoader(Reposetry, MatchCalculator).Load(@"C:\git\Dictionaries\Dutch.dic", "nl");
-            //});
-        }
-
-        private void BttLoadEnClick(object sender, RoutedEventArgs e)
-        {
-            Task.Run(() =>
-            {
-                new DixionaryLoader(Reposetry, MatchCalculator).Load(@"C:\git\Dictionaries\English (British).dic", "en");
-            });
         }
     }
 
