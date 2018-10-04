@@ -16,26 +16,34 @@ namespace diagrammatically.Domein.UnitTest.WordMatchZipConsumer
         {
             var optionconsumerMock = new Mock<IWordMatchConsumer>();
             optionconsumerMock
-                .Setup(optionconsumer => optionconsumer.Consume(It.IsAny<string>(), "vs code", It.IsAny<IEnumerable<WordMatch>>()))
-                .Callback<string, string, IEnumerable<WordMatch>>((filter, source, matches) => _matshes.Add(matches));
+                .Setup(optionconsumer => optionconsumer.Lisen(It.IsAny<IEnumerable<WordMatch>>(), "vs code", It.IsAny<IEnumerable<string>>()))
+                .Callback<IEnumerable<WordMatch>, string, IEnumerable<string>>((matches, source, langs) => _matshes.Add(matches));
 
-            _sub = new WordMatchConsumer.WordMatchZipConsumer(optionconsumerMock.Object);
+            _sub = new WordMatchConsumer.WordMatchZipConsumer();
+            _sub.Subscribe(optionconsumerMock.Object);
         }
 
         protected override void When()
         {
             var filter = "woord";
 
-            _sub.Consume("word", "vs code", new[]
-            {
-                new WordMatch("word", "worden", 1, 0, "localdb"),
-                new WordMatch("word", "word", 0.1, 0, "localdb")
-            });
-            _sub.Consume("worde", "vs code", new[]
-            {
-                new WordMatch("worde", "wordis", 1, 0, "google") ,
-                new WordMatch("worde", "worden", 0.3, 0, "google")
-            });
+            _sub.Lisen(
+                new[]
+                {
+                    new WordMatch("word", "worden", 1, 0, "localdb"),
+                    new WordMatch("word", "word", 0.1, 0, "localdb")
+                },
+                "vs code",
+                new[] { "ln" });
+
+            _sub.Lisen(
+                new[]
+                {
+                    new WordMatch("worde", "wordis", 1, 0, "google") ,
+                    new WordMatch("worde", "worden", 0.3, 0, "google")
+                },
+                "vs code",
+                new[] { "ln" });
         }
 
         [Fact]

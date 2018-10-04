@@ -1,4 +1,5 @@
-﻿using diagrammatically.AvaloniaUi;
+﻿using System.Collections.Generic;
+using diagrammatically.AvaloniaUi;
 using diagrammatically.Domein;
 using diagrammatically.Domein.InputProsesers;
 using diagrammatically.Domein.Interfaces;
@@ -22,41 +23,38 @@ namespace diagrammatically.electron_edge.api
 
 
             var matchCalculator = new MatchCalculator();
-
             var reposetry = new Reposetry(matchCalculator, @"C:\git\diagrammatically\");
 
-            var localFinder = new LocalFinder(matchCalculator, reposetry);
+            InputGenerator = new InputGenerator();
+            var splitter = new CreateWordInPut(wordsplitter, sentenssplitter);
+           
+            var proitizer = new WordMatchPriotizeConsumer(8);
+            var optionZiper = new WordMatchZipConsumer();
 
-            var inputConsumers = new IInputConsumer[]
+            var optionconsumerAPI = new WordMatchesConsumer();
+            var optionconsumerAvalonia = new AvaloniaUi.WordMatchesConsumer(main.SetWords);
+            
+            var localFinder = new LocalFinder(matchCalculator, reposetry);
+            var inputConsumers = new WordFonder[]
             {
                 // new SearchConsumer(),
                 localFinder
             };
 
-            var optionconsumer = new WordMatchesConsumer();
+            var inputProseser = new InputProseser(inputConsumers);
 
-            var optionconsumer2 = new AvaloniaUi.WordMatchesConsumer(main.SetWords);
+            InputGenerator.Subscribe(splitter);
+            splitter.Subscribe(inputProseser);
 
-            var consumers = new IWordMatchConsumer[] { optionconsumer, optionconsumer2 };
-            var proitizer = new WordMatchPriotizeConsumer(consumers, 8);
-            var optionZiper = new WordMatchZipConsumer(proitizer);
-
-
-            var optionConsumers = new[]
-            {
-                optionZiper
-            };
-
-            var inputProseser = new InputProseser(inputConsumers, optionConsumers);
-            var splitter = new CreateWordInPut(inputProseser, wordsplitter, sentenssplitter);
-
+            inputProseser.Subscribe(optionZiper);
+            optionZiper.Subscribe(proitizer);
+            
+            proitizer.Subscribe(optionconsumerAPI);
+            proitizer.Subscribe(optionconsumerAvalonia);
 
             main.MatchCalculator = matchCalculator;
-
             main.ViewModel = new ViewModel();
             main.Reposetry = reposetry;
-
-            InputGenerator = new InputGenerator(splitter);
         }
     }
 }

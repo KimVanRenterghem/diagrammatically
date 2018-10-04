@@ -14,10 +14,10 @@ namespace diagrammatically.Domein.UnitTest.CreateWordInPut
 
         protected override void Given()
         {
-            var inputProseserMock = new Mock<IInputProseser>();
+            var inputProseserMock = new Mock<InputProseserStream>();
 
             inputProseserMock
-                .Setup(inputProseser => inputProseser.Loockup(It.IsAny<string>(), It.IsAny<string>(), new[] {"en"}))
+                .Setup(inputProseser => inputProseser.Lisen(It.IsAny<string>(), It.IsAny<string>(), new[] {"en"}))
                 .Callback<string, string, IEnumerable<string>>((search, source,lang) => _search = search);
 
             var sentenssplitter = new Mock<IWordsSplitter>();
@@ -30,12 +30,14 @@ namespace diagrammatically.Domein.UnitTest.CreateWordInPut
                 .Setup(splitter => splitter.Split("Given WhenThen"))
                 .Returns(() => new[] { "Given WhenThen" });
 
-            _sub = new InputProsesers.CreateWordInPut(inputProseserMock.Object, wordsplitter.Object, sentenssplitter.Object);
+            _sub = new InputProsesers.CreateWordInPut(wordsplitter.Object, sentenssplitter.Object);
+
+            _sub.Subscribe(inputProseserMock.Object);
         }
 
         protected override void When()
         {
-            _sub.Loockup("Given WhenThen", "untitest", new []{"en"});
+            _sub.Lisen("Given WhenThen", "untitest", new []{"en"});
         }
 
         [Fact]

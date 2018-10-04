@@ -7,7 +7,7 @@ using diagrammatically.Domein.Interfaces;
 
 namespace diagrammatically.localDictionary
 {
-    public class LocalFinder : IInputConsumer
+    public class LocalFinder : WordFonder
     {
         private readonly IMatchCalculator _matchCalculator;
         private Reposetry _repo;

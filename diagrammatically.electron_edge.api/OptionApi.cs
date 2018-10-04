@@ -44,6 +44,7 @@ namespace diagrammatically.electron_edge.api
         {
             var word = input.selection.ToString();
             var typedWord = input.typed.ToString();
+
             new OutputWriter()
                 .Write(word, typedWord);
             return Task.FromResult<object>(true);
@@ -67,11 +68,11 @@ namespace diagrammatically.electron_edge.api
                 }
             });
 
-            _keystrokeApi.CreateKeyboardHook(key 
-                => _dependencysBuilder
-                    .InputGenerator
-                    .Genrrate(new[] { "nl", "en" })(key)
-                );
+            var GeyinputLisenes = _dependencysBuilder
+                .InputGenerator
+                .Genrrate(new[] {"nl", "en"});
+
+            _keystrokeApi.CreateKeyboardHook(GeyinputLisenes);
 
             AppBuilder
                 .Configure<App>()

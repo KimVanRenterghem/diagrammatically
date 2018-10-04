@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using diagrammatically.Domein;
-using diagrammatically.Domein.WordMatchConsumer;
 
 namespace diagrammatically.electron_edge.api
 {
-    public class WordMatchesConsumer : IWordMatchConsumer
+    public class WordMatchesConsumer : Subscriber<IEnumerable<WordMatch>>
     {
-        public void Consume(string filter, string source, IEnumerable<WordMatch> matches)
+        public void Lisen(IEnumerable<WordMatch> matches, string source, IEnumerable<string> langs)
             => OptionApi._LastMatches = matches;
     }
 }

@@ -16,23 +16,27 @@ namespace diagrammatically.Domein.UnitTest.WordMatchPriotizeConsumer
         {
             var optionconsumerMock1 = new Mock<IWordMatchConsumer>();
             optionconsumerMock1
-                .Setup(optionconsumer => optionconsumer.Consume("word", "vs code", It.IsAny<IEnumerable<WordMatch>>()))
-                .Callback<string, string, IEnumerable<WordMatch>>((filter, source, matches) => _matshes.Add(matches));
+                .Setup(optionconsumer => optionconsumer.Lisen(It.IsAny<IEnumerable<WordMatch>>(), "vs code", new[] { "en" }))
+                .Callback<IEnumerable<WordMatch>, string, IEnumerable<string>>((matches, source, langs) => _matshes.Add(matches));
 
-            _sub = new WordMatchConsumer.WordMatchPriotizeConsumer(new[] { optionconsumerMock1.Object },2);
+            _sub = new WordMatchConsumer.WordMatchPriotizeConsumer(2);
+            _sub.Subscribe(optionconsumerMock1.Object);
         }
 
         protected override void When()
         {
             const string filter = "word";
 
-            _sub.Consume(filter, "vs code", new[]
-            {
-                new WordMatch(filter, "wordis", 0.5, 0, "google"),
-                new WordMatch(filter, "worden", 1, 0, "localdb"),
-                new WordMatch(filter, "worden", 0.3, 0, "google"),
-                new WordMatch(filter, "word", 1, 0, "localdb")
-            });
+            _sub.Lisen(
+                new[]
+                {
+                    new WordMatch(filter, "wordis", 0.5, 0, "google"),
+                    new WordMatch(filter, "worden", 1, 0, "localdb"),
+                    new WordMatch(filter, "worden", 0.3, 0, "google"),
+                    new WordMatch(filter, "word", 1, 0, "localdb")
+                },
+                "vs code",
+                new[] { "en" });
         }
 
         [Fact]

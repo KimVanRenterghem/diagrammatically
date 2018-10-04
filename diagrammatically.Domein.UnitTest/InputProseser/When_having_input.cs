@@ -15,31 +15,32 @@ namespace diagrammatically.Domein.UnitTest.InputProseser
 
         protected override void Given()
         {
-            var inputconsumerMock1 = new Mock<IInputConsumer>();
+            var inputconsumerMock1 = new Mock<WordFonder>();
             inputconsumerMock1
                 .Setup(inputconsumer => inputconsumer.ConsumeAsync("test", new[] { "nl" }))
                 .Returns(Task.FromResult<IEnumerable<WordMatch>>(new[] { new WordMatch("test", "testkim", 10, 0, "") }));
 
-            var inputconsumerMock2 = new Mock<IInputConsumer>();
+            var inputconsumerMock2 = new Mock<WordFonder>();
             inputconsumerMock2
                 .Setup(inputconsumer => inputconsumer.ConsumeAsync("test", new[] { "nl" }))
                 .Returns(Task.FromResult<IEnumerable<WordMatch>>(new[] { new WordMatch("test", "testkim2", 10, 0, "") }));
 
-            var optionconsumerMock = new Mock<IWordMatchConsumer>();
+            var optionconsumerMock = new Mock<Subscriber<IEnumerable<WordMatch>>>();
             optionconsumerMock
-                .Setup(optionconsumer => optionconsumer.Consume("test", "unittest", It.IsAny<IEnumerable<WordMatch>>()))
-                .Callback<string, string, IEnumerable<WordMatch>>((filter,source,matches) => _matshes.Add(matches));
+                .Setup(optionconsumer => optionconsumer.Lisen(It.IsAny<IEnumerable<WordMatch>>(), "unittest", new[] { "nl" }))
+                .Callback<IEnumerable<WordMatch>, string, IEnumerable<string>>((matches, source, langs) => _matshes.Add(matches));
 
             _sut = new InputProsesers.InputProseser
                 (
-                    new[] { inputconsumerMock1.Object, inputconsumerMock2.Object },
-                    new[] { optionconsumerMock.Object }
+                    new[] { inputconsumerMock1.Object, inputconsumerMock2.Object }
                 );
+
+            _sut.Subscribe(optionconsumerMock.Object);
         }
 
         protected override void When()
         {
-            _sut.Loockup("test", "unittest", new[] { "nl" });
+            _sut.Lisen("test", "unittest", new[] { "nl" });
         }
 
         [Fact]

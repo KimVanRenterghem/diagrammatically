@@ -5,16 +5,15 @@ namespace diagrammatically.Domein.WordMatchConsumer
 {
     public class WordMatchPriotizeConsumer : IWordMatchConsumer
     {
-        private readonly IEnumerable<IWordMatchConsumer> _optionconsumer;
+        private readonly List<Subscriber<IEnumerable<WordMatch>>>_optionconsumer = new List<Subscriber<IEnumerable<WordMatch>>>();
         private readonly int _lenth;
 
-        public WordMatchPriotizeConsumer(IEnumerable<IWordMatchConsumer> optionconsumer, int lenth)
+        public WordMatchPriotizeConsumer(int lenth) 
         {
-            _optionconsumer = optionconsumer;
             _lenth = lenth;
         }
 
-        public void Consume(string filter, string source, IEnumerable<WordMatch> matches)
+        public void Lisen(IEnumerable<WordMatch> matches, string source, IEnumerable<string> langs)
         {
             matches = matches
                 .OrderByDescending(wordMatch => wordMatch.Match)
@@ -23,7 +22,12 @@ namespace diagrammatically.Domein.WordMatchConsumer
                 .ToArray();
 
             _optionconsumer
-                .ForEach(op => op.Consume(filter, source, matches));
+                .ForEach(op => op.Lisen(matches, source, langs));
+        }
+
+        public void Subscribe(Subscriber<IEnumerable<WordMatch>> subscriber)
+        {
+            _optionconsumer.Add(subscriber);
         }
     }
 }

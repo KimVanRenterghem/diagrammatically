@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using diagrammatically.Domein.InputProsesers;
+using diagrammatically.Domein;
 using Keystroke.API;
 using Keystroke.API.CallbackObjects;
 
 namespace diagrammatically.electron_edge.api
 {
-    public class InputGenerator
+    public class InputGenerator : Publisher<string>
     {
-        private readonly IInputProseser _inputprosecer;
         private string words = string.Empty;
         private string _lastCurrentWindow = String.Empty;
-
-        public InputGenerator(IInputProseser inputprosecer)
-        {
-            _inputprosecer = inputprosecer;
-        }
+        private Subscriber<string> _subscriber;
 
         private bool IsStringInput(KeyCode code)
             =>
@@ -52,8 +47,13 @@ namespace diagrammatically.electron_edge.api
                             ""
                         : words + GetChar(character);
 
-                    _inputprosecer.Loockup(words, character.CurrentWindow, langs);
+                    _subscriber.Lisen(words, character.CurrentWindow, langs);
                 }
             };
+
+        public void Subscribe(Subscriber<string> subscriber)
+        {
+            _subscriber = subscriber;
+        }
     }
 }

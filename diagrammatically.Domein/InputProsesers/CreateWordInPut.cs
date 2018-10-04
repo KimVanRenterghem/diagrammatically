@@ -4,20 +4,19 @@ using diagrammatically.Domein.Interfaces;
 
 namespace diagrammatically.Domein.InputProsesers
 {
-    public class CreateWordInPut : IInputProseser
+    public class CreateWordInPut : InputProseserStream
     {
-        private readonly IInputProseser _inputProseser;
         private readonly IWordsSplitter _wordsSplitter;
         private readonly IWordsSplitter _sentensSplitter;
+        private Subscriber<string> _subscriber;
 
-        public CreateWordInPut(IInputProseser inputProseser, IWordsSplitter wordsSplitter, IWordsSplitter sentensSplitter)
+        public CreateWordInPut( IWordsSplitter wordsSplitter, IWordsSplitter sentensSplitter)
         {
-            _inputProseser = inputProseser;
             _wordsSplitter = wordsSplitter;
             _sentensSplitter = sentensSplitter;
         }
 
-        public void Loockup(string filter, string source, IEnumerable<string> langs)
+        public void Lisen(string filter, string source, IEnumerable<string> langs)
         {
             var f = filter;
             var sentenses = _sentensSplitter.Split(filter);
@@ -27,7 +26,12 @@ namespace diagrammatically.Domein.InputProsesers
                 .Split(filter)
                 .Last();
 
-            _inputProseser.Loockup(filter, source, langs);
+            _subscriber.Lisen(filter, source, langs);
+        }
+
+        public void Subscribe(Subscriber<string> subscriber)
+        {
+            _subscriber = subscriber;
         }
     }
 }

@@ -6,17 +6,14 @@ namespace diagrammatically.Domein.WordMatchConsumer
 {
     public class WordMatchZipConsumer : IWordMatchConsumer
     {
-        private readonly IWordMatchConsumer _wordMatchConsumer;
+        private Subscriber<IEnumerable<WordMatch>> _wordMatchConsumer;
         private string _filter;
         private string _source;
         private IEnumerable<WordMatch> _wordMatches;
-
-        public WordMatchZipConsumer(IWordMatchConsumer wordMatchConsumer)
+        
+        public void Lisen(IEnumerable<WordMatch> wordMatches, string source, IEnumerable<string> langs) 
         {
-            _wordMatchConsumer = wordMatchConsumer;
-        }
-        public void Consume(string filter, string source, IEnumerable<WordMatch> wordMatches)
-        {
+            var filter = wordMatches.First()?.Search;
             if (_filter == filter && _source == source)
             {
                 _wordMatches = wordMatches
@@ -31,7 +28,12 @@ namespace diagrammatically.Domein.WordMatchConsumer
                 _wordMatches = wordMatches;
             }
 
-            _wordMatchConsumer.Consume(filter, source, _wordMatches);
+            _wordMatchConsumer.Lisen(_wordMatches, source, langs);
+        }
+
+        public void Subscribe(Subscriber<IEnumerable<WordMatch>> subscriber)
+        {
+            _wordMatchConsumer = subscriber;
         }
     }
 }

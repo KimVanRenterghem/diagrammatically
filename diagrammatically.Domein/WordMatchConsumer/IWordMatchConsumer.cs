@@ -2,8 +2,7 @@
 
 namespace diagrammatically.Domein.WordMatchConsumer
 {
-    public interface IWordMatchConsumer
+    public interface IWordMatchConsumer : Subscriber<IEnumerable<WordMatch>> , Publisher<IEnumerable<WordMatch>>
     {
-        void Consume(string filter, string source, IEnumerable<WordMatch> matches);
     }
 }

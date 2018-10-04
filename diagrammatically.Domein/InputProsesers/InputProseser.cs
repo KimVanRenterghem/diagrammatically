@@ -4,44 +4,47 @@ using System.Linq;
 using System.Threading.Tasks;
 using CSharp.Pipe;
 using diagrammatically.Domein.Interfaces;
-using diagrammatically.Domein.WordMatchConsumer;
 
 namespace diagrammatically.Domein.InputProsesers
 {
-    public class InputProseser : IInputProseser
+    public class InputProseser : Subscriber<string>, Publisher<IEnumerable<WordMatch>>
     {
-        private readonly IEnumerable<IInputConsumer> _inputConsumers;
-        private readonly IEnumerable<IWordMatchConsumer> _optionConsumers;
+        private readonly IEnumerable<WordFonder> _wordFinders;
+        private readonly List<Subscriber<IEnumerable<WordMatch>>> _wordMatchLiseners = new List<Subscriber<IEnumerable<WordMatch>>>();
 
-        public InputProseser(IEnumerable<IInputConsumer> inputConsumers, IEnumerable<IWordMatchConsumer> optionConsumers)
+        public InputProseser(IEnumerable<WordFonder> wordFinders)
         {
-            _inputConsumers = inputConsumers;
-            _optionConsumers = optionConsumers;
+            _wordFinders = wordFinders;
         }
 
-        public void Loockup(string filter, string source, IEnumerable<string> langs)
+        public void Lisen(string filter, string source, IEnumerable<string> langs)
         {
-            Action<IEnumerable<WordMatch>> BroadCastWithFilterAndSource(string f, string s)
-            {
-                return matches => BroadCast(f, s, matches);
-            }
-
             if (string.IsNullOrEmpty(filter))
             {
-                BroadCastWithFilterAndSource(filter, source)(new WordMatch[0]);
+                BroadCastWithFilterAndSource(source, langs)(new WordMatch[0]);
                 return;
             }
 
-            _inputConsumers
+            _wordFinders
                 .Select(async consumer
                     => (await consumer.ConsumeAsync(filter, langs))
-                        .Pipe(BroadCastWithFilterAndSource(filter, source)))
+                        .Pipe(BroadCastWithFilterAndSource(source,langs)))
                 .ToArray()
                 .Pipe(Task.WhenAll);
+
+            Action<IEnumerable<WordMatch>> BroadCastWithFilterAndSource(string s, IEnumerable<string> l)
+            {
+                return matches => BroadCast(matches, s, l);
+            }
         }
 
-        private void BroadCast(string filter, string source, IEnumerable<WordMatch> matches)
-            => _optionConsumers
-                .ForEach(optionConsumer => optionConsumer.Consume(filter, source, matches));
+        private void BroadCast(IEnumerable<WordMatch> matches, string source, IEnumerable<string> langs)
+            => _wordMatchLiseners
+                .ForEach(optionConsumer => optionConsumer.Lisen(matches, source, langs));
+
+        public void Subscribe(Subscriber<IEnumerable<WordMatch>> subscriber)
+        {
+            _wordMatchLiseners.Add(subscriber);
+        }
     }
 }
