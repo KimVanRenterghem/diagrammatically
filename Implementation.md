@@ -1,5 +1,5 @@
 # Test
-![Alt text](https://g.gravizo.com/source/custom_mark10?https://github.com/KimVanRenterghem/diagrammatically/edit/master/Implementation.md)
+![Alt text](https://g.gravizo.com/source/custom_mark10?https%3A%2F%2Fraw.githubusercontent.com%2FKimVanRenterghem%2Fdiagrammatically%2Fedit%2Fmaster%2FImplementation.md)
 <details> 
 <summary></summary>
 custom_mark10
