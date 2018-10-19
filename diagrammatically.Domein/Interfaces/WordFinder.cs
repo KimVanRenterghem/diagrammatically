@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace diagrammatically.Domein.Interfaces
 {
-    public interface WordFonder
+    public interface WordFinder
     {
         Task<IEnumerable<WordMatch>> ConsumeAsync(string input, IEnumerable<string> langs);
     }

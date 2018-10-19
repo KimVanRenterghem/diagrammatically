@@ -28,15 +28,17 @@ const selectWord = edge.func({
     methodName: 'SelectWord'
 })
 
-const writeSelection = function (selection, typed) {
+const writeSelection = function (selection, typed, sourse) {
     const inp = {
         selection : selection,
-        typed : typed
+        typed : typed,
+        sourse : sourse
     }
-    document.getElementById("typing-word").setAttribute('text', 'selection : ' + selection)
-    selectWord(inp,function(error, result){
+    console.log(inp)
+    document.getElementById("typing-word").setAttribute('text', 'selection : ' + sel)
+    /*selectWord(inp,function(error, result){
         if (error) throw error
-    })
+    })*/
 }
 
 const loadMatches = function () {
@@ -51,7 +53,7 @@ const loadMatches = function () {
                     document.getElementById("typing-word").setAttribute('text', result[0].Search)
                     document.getElementById("suggestion-list").setAttribute('words', words)
                     if(result[0].Search === "wod"){
-                        writeSelection("woord", result[0].Search)
+                        writeSelection(result[0].Word, result[0].Search, result[0].Sourse)
                     }
             }
             else {

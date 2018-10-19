@@ -9,10 +9,10 @@ namespace diagrammatically.Domein.InputProsesers
 {
     public class InputProseser : Subscriber<string>, Publisher<IEnumerable<WordMatch>>
     {
-        private readonly IEnumerable<WordFonder> _wordFinders;
+        private readonly IEnumerable<WordFinder> _wordFinders;
         private readonly List<Subscriber<IEnumerable<WordMatch>>> _wordMatchLiseners = new List<Subscriber<IEnumerable<WordMatch>>>();
 
-        public InputProseser(IEnumerable<WordFonder> wordFinders)
+        public InputProseser(IEnumerable<WordFinder> wordFinders)
         {
             _wordFinders = wordFinders;
         }

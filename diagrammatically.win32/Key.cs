@@ -114,7 +114,7 @@ namespace diagrammatically.win32
                                 _buttonCounter = 0;
                                 return false;
                             }
-                            Up(hWnd, foreground);
+                            Up(hWnd, true);
                         }
                     }
                     else
@@ -127,7 +127,7 @@ namespace diagrammatically.win32
                                 _buttonCounter = 0;
                                 return false;
                             }
-                            Up(hWnd, foreground);
+                            Up(hWnd, false);
                         }
                     }
                     return true;
@@ -140,16 +140,16 @@ namespace diagrammatically.win32
             switch (ShiftType)
             {
                 case Messaging.ShiftType.NONE:
-                    if (!Messaging.ForegroundKeyPress(this))
+                    if (Messaging.ForegroundKeyPress(this)) 
+                        return true;
+
+                    _buttonCounter++;
+                    if (_buttonCounter == 2)
                     {
-                        _buttonCounter++;
-                        if (_buttonCounter == 2)
-                        {
-                            _buttonCounter = 0;
-                            return false;
-                        }
-                        PressForeground();
+                        _buttonCounter = 0;
+                        return false;
                     }
+                    PressForeground();
                     return true;
             }
             return true;

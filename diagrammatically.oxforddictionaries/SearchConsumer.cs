@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace diagrammatically.oxforddictionaries
 {
-    public class SearchConsumer : WordFonder
+    public class SearchConsumer : WordFinder
     {
         public async Task<IEnumerable<WordMatch>> ConsumeAsync(string input, IEnumerable<string> langs)
         {

@@ -13,7 +13,8 @@ namespace diagrammatically.Domein.WordMatchConsumer
         
         public void Lisen(IEnumerable<WordMatch> wordMatches, string source, IEnumerable<string> langs) 
         {
-            var filter = wordMatches.First()?.Search;
+            var filter = wordMatches.Any() ? wordMatches.First()?.Search : "";
+
             if (_filter == filter && _source == source)
             {
                 _wordMatches = wordMatches

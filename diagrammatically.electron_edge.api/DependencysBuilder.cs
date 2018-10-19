@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
-using diagrammatically.AvaloniaUi;
+﻿using diagrammatically.AvaloniaUi;
 using diagrammatically.Domein;
 using diagrammatically.Domein.InputProsesers;
 using diagrammatically.Domein.Interfaces;
 using diagrammatically.Domein.WordMatchConsumer;
 using diagrammatically.localDictionary;
+using diagrammatically.win32;
 
 namespace diagrammatically.electron_edge.api
 {
     public class DependencysBuilder : IDependencysBuilder
     {
         public InputGenerator InputGenerator { get; private set; }
+        public WordSelector WordSelector { get; private set; }
 
         public void Build(MainWindow main)
         {
@@ -35,13 +36,17 @@ namespace diagrammatically.electron_edge.api
             var optionconsumerAvalonia = new AvaloniaUi.WordMatchesConsumer(main.SetWords);
             
             var localFinder = new LocalFinder(matchCalculator, reposetry);
-            var inputConsumers = new WordFonder[]
+            var inputConsumers = new WordFinder[]
             {
                 // new SearchConsumer(),
                 localFinder
             };
 
             var inputProseser = new InputProseser(inputConsumers);
+
+            var keKeyBoardTyper = new KeyBoardTyper();
+
+            WordSelector = new WordSelector(keKeyBoardTyper, InputGenerator);
 
             InputGenerator.Subscribe(splitter);
             splitter.Subscribe(inputProseser);

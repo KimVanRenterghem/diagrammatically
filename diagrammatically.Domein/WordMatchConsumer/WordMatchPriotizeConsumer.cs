@@ -3,12 +3,12 @@ using System.Linq;
 
 namespace diagrammatically.Domein.WordMatchConsumer
 {
-    public class WordMatchPriotizeConsumer : IWordMatchConsumer
+    public class WordMatchPriotizeConsumer : IWordMatchConsumer, Subscriber<WordSelection>
     {
-        private readonly List<Subscriber<IEnumerable<WordMatch>>>_optionconsumer = new List<Subscriber<IEnumerable<WordMatch>>>();
+        private readonly List<Subscriber<IEnumerable<WordMatch>>> _optionconsumer = new List<Subscriber<IEnumerable<WordMatch>>>();
         private readonly int _lenth;
 
-        public WordMatchPriotizeConsumer(int lenth) 
+        public WordMatchPriotizeConsumer(int lenth)
         {
             _lenth = lenth;
         }
@@ -21,6 +21,11 @@ namespace diagrammatically.Domein.WordMatchConsumer
                 .Take(_lenth)
                 .ToArray();
 
+            PublichMatches(matches, source, langs);
+        }
+
+        private void PublichMatches(IEnumerable<WordMatch> matches, string source, IEnumerable<string> langs)
+        {
             _optionconsumer
                 .ForEach(op => op.Lisen(matches, source, langs));
         }
@@ -29,5 +34,8 @@ namespace diagrammatically.Domein.WordMatchConsumer
         {
             _optionconsumer.Add(subscriber);
         }
+
+        public void Lisen(WordSelection message, string source, IEnumerable<string> langs)
+            => PublichMatches(new WordMatch[0], source, langs);
     }
 }

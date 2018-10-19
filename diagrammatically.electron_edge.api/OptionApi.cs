@@ -11,19 +11,21 @@ namespace diagrammatically.electron_edge.api
 {
     public class OptionApi
     {
-        private readonly IDependencysBuilder _dependencysBuilder;
+        private static IDependencysBuilder _dependencysBuilder;
+        private static readonly IEnumerable<string> _langs = new[] { "nl", "en" };
         private readonly KeystrokeAPI _keystrokeApi;
         public static IEnumerable<WordMatch> _LastMatches = new List<WordMatch>();
         private CancellationToken _cancel;
 
         public OptionApi() : this(new DependencysBuilder(), new KeystrokeAPI())
         {
-            
+
         }
 
         public OptionApi(IDependencysBuilder dependencysBuilder, KeystrokeAPI keystrokeApi)
         {
-            _dependencysBuilder = dependencysBuilder;
+            if (_dependencysBuilder == null)
+                _dependencysBuilder = dependencysBuilder;
             _keystrokeApi = keystrokeApi;
         }
 
@@ -37,16 +39,27 @@ namespace diagrammatically.electron_edge.api
             {
                 Startapplication();
             });
+
             return Task.FromResult<object>(true);
         }
 
         public async Task<object> SelectWord(dynamic input)
         {
-            var word = input.selection.ToString();
-            var typedWord = input.typed.ToString();
+            var selectedWord = new WordSelection(
+                input.selection.ToString(),
+                input.typed.ToString(),
+                input.sourse.ToString());
 
-            new OutputWriter()
-                .Write(word, typedWord);
+            if (string.IsNullOrEmpty(selectedWord.Word))
+                return Task.FromResult<object>(true);
+
+            Task.Run(() =>
+            {
+                _dependencysBuilder
+                    .WordSelector
+                    .Lisen(selectedWord, selectedWord.Sourse, _langs);
+            });
+
             return Task.FromResult<object>(true);
         }
 
@@ -68,11 +81,11 @@ namespace diagrammatically.electron_edge.api
                 }
             });
 
-            var GeyinputLisenes = _dependencysBuilder
-                .InputGenerator
-                .Genrrate(new[] {"nl", "en"});
-
-            _keystrokeApi.CreateKeyboardHook(GeyinputLisenes);
+            _keystrokeApi.CreateKeyboardHook(key =>
+                _dependencysBuilder
+                    .InputGenerator
+                    .GenerateKeyLisener(_langs)(key)
+                );
 
             AppBuilder
                 .Configure<App>()

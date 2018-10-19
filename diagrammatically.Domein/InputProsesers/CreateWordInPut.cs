@@ -18,7 +18,6 @@ namespace diagrammatically.Domein.InputProsesers
 
         public void Lisen(string filter, string source, IEnumerable<string> langs)
         {
-            var f = filter;
             var sentenses = _sentensSplitter.Split(filter);
             filter = sentenses.Last();
 

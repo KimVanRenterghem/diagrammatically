@@ -15,12 +15,12 @@ namespace diagrammatically.Domein.UnitTest.InputProseser
 
         protected override void Given()
         {
-            var inputconsumerMock1 = new Mock<WordFonder>();
+            var inputconsumerMock1 = new Mock<WordFinder>();
             inputconsumerMock1
                 .Setup(inputconsumer => inputconsumer.ConsumeAsync("test", new[] { "nl" }))
                 .Returns(Task.FromResult<IEnumerable<WordMatch>>(new[] { new WordMatch("test", "testkim", 10, 0, "") }));
 
-            var inputconsumerMock2 = new Mock<WordFonder>();
+            var inputconsumerMock2 = new Mock<WordFinder>();
             inputconsumerMock2
                 .Setup(inputconsumer => inputconsumer.ConsumeAsync("test", new[] { "nl" }))
                 .Returns(Task.FromResult<IEnumerable<WordMatch>>(new[] { new WordMatch("test", "testkim2", 10, 0, "") }));

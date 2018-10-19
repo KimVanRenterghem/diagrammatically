@@ -1,11 +1,11 @@
 ﻿using System.Linq;
+using diagrammatically.Domein.Interfaces;
 
 namespace diagrammatically.win32
 {
-
-    public class OutputWriter
+    public class KeyBoardTyper : OutputWriter
     {
-        public void Write(string word, string typedWord)
+        public void Write(string word, string typedWord, string sourse)
         {
             Enumerable
                 .Repeat(new Key(Messaging.VKeys.KEY_BACK), typedWord.Length)

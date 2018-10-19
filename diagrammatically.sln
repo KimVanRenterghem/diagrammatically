@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "diagrammatically.electron_e
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "diagrammatically.win32", "diagrammatically.win32\diagrammatically.win32.csproj", "{87B04335-26EC-4FEA-B6AE-F0ECE128367F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testconsole", "testconsole\testconsole.csproj", "{7ACC9E42-FEC2-405A-A02B-C7F6C9E56081}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,14 @@ Global
 		{87B04335-26EC-4FEA-B6AE-F0ECE128367F}.Release|Any CPU.Build.0 = Release 3.5|Any CPU
 		{87B04335-26EC-4FEA-B6AE-F0ECE128367F}.Release|x86.ActiveCfg = Release 3.5|Any CPU
 		{87B04335-26EC-4FEA-B6AE-F0ECE128367F}.Release|x86.Build.0 = Release 3.5|Any CPU
+		{7ACC9E42-FEC2-405A-A02B-C7F6C9E56081}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ACC9E42-FEC2-405A-A02B-C7F6C9E56081}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ACC9E42-FEC2-405A-A02B-C7F6C9E56081}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7ACC9E42-FEC2-405A-A02B-C7F6C9E56081}.Debug|x86.Build.0 = Debug|Any CPU
+		{7ACC9E42-FEC2-405A-A02B-C7F6C9E56081}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ACC9E42-FEC2-405A-A02B-C7F6C9E56081}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ACC9E42-FEC2-405A-A02B-C7F6C9E56081}.Release|x86.ActiveCfg = Release|Any CPU
+		{7ACC9E42-FEC2-405A-A02B-C7F6C9E56081}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -65,7 +65,7 @@
     <RootNamespace>diagrammatically.win32</RootNamespace>
     <AssemblyName>diagrammatically.win32</AssemblyName>
     <OutputPath>bin\net35\</OutputPath>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -82,8 +82,14 @@
   <ItemGroup>
     <Compile Include="Key.cs" />
     <Compile Include="Messaging.cs" />
-    <Compile Include="OutputWriter.cs" />
+    <Compile Include="KeyBoardTyper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\diagrammatically.Domein\diagrammatically.Domein.csproj">
+      <Project>{923fc821-2673-4619-b844-8f006d3e4292}</Project>
+      <Name>diagrammatically.Domein</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
